@@ -1,0 +1,17 @@
+[
+  {
+    "id": "MIGR-001",
+    "category": "migration",
+    "severity": "critical",
+    "message": "Old domain does not permanently redirect (301/308) to the new site.",
+    "fixHint": "Update server redirects so all old URLs point to the new domain with 301/308.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/301-redirects"
+  },
+  {
+    "id": "MIGR-002",
+    "category": "migration",
+    "severity": "warning",
+    "message": "Domain registration expires soon.",
+    "fixHint": "Renew domain registration before expiry to avoid downtime and index loss."
+  }
+]

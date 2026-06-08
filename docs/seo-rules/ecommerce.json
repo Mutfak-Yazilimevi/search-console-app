@@ -1,0 +1,50 @@
+[
+  {
+    "id": "product-schema-missing",
+    "category": "ecommerce",
+    "severity": "info",
+    "message": "Ürün sayfasında Product schema (JSON-LD) bulunamadı.",
+    "fixHint": "Product, Offer ve Review schema.org JSON-LD ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/structured-data/product"
+  },
+  {
+    "id": "breadcrumb-missing",
+    "category": "ecommerce",
+    "severity": "info",
+    "message": "BreadcrumbList yapılandırılmış veri veya breadcrumb navigasyonu eksik.",
+    "fixHint": "BreadcrumbList JSON-LD ve görünür breadcrumb navigasyonu ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/structured-data/breadcrumb"
+  },
+  {
+    "id": "EC-001",
+    "category": "ecommerce",
+    "severity": "warning",
+    "message": "Product Offer schema'da price veya availability eksik.",
+    "fixHint": "Offer nesnesine price ve availability (InStock/OutOfStock) ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/structured-data/product"
+  },
+  {
+    "id": "EC-002",
+    "category": "ecommerce",
+    "severity": "info",
+    "message": "Product schema'da aggregateRating veya review eksik — yıldız snippet'i görünmeyebilir.",
+    "fixHint": "Gerçek müşteri yorumları için Review veya AggregateRating ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/structured-data/review-snippet"
+  },
+  {
+    "id": "EC-003",
+    "category": "ecommerce",
+    "severity": "info",
+    "message": "Faceted/filter URL noindex olmadan indekslenebilir durumda.",
+    "fixHint": "Sıralama/filtre parametreli URL'lere noindex veya canonical uygulayın.",
+    "docUrl": "https://developers.google.com/search/docs/specialty/ecommerce"
+  },
+  {
+    "id": "EC-004",
+    "category": "ecommerce",
+    "severity": "info",
+    "message": "Sayfalandırılmış liste rel=next/prev veya canonical eksik.",
+    "fixHint": "Pagination için rel=\"next\"/\"prev\" linkleri veya view-all canonical kullanın.",
+    "docUrl": "https://developers.google.com/search/docs/specialty/ecommerce"
+  }
+]

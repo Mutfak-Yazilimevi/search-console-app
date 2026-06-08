@@ -1,0 +1,31 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "bundler",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "lib": ["ES2022", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@SearchConsoleApp/shared/core": ["libs/shared/core/src/index.ts"],
+      "@SearchConsoleApp/shared/ui": ["libs/shared/ui/src/index.ts"],
+      "@SearchConsoleApp/shared/theme": ["libs/shared/theme/src/index.ts"],
+      "@SearchConsoleApp/shared/models": ["libs/shared/models/src/index.ts"],
+      "@SearchConsoleApp/shared/utils": ["libs/shared/utils/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

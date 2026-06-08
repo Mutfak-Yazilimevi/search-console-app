@@ -1,0 +1,19 @@
+{
+  "auth.invalid_credentials": "Email veya şifre hatalı.",
+  "auth.account_disabled": "Hesap aktif değil.",
+  "auth.duplicate_email": "Bu email ile zaten kayıt var.",
+  "auth.token_invalid": "Token geçersiz veya süresi dolmuş.",
+  "auth.2fa_required": "İki faktörlü doğrulama gerekli.",
+  "auth.2fa_invalid": "2FA kodu geçersiz.",
+  "auth.preauth_invalid": "PreAuth token geçersiz veya süresi dolmuş.",
+  "auth.password_min_length": "Şifre en az 8 karakter olmalı.",
+  "auth.password_wrong": "Mevcut parola hatalı.",
+  "session.revoked": "Oturumunuz kapatıldı.",
+  "session.expired": "Oturumunuzun süresi doldu. Lütfen tekrar giriş yapın.",
+  "validation.required": "{0} zorunludur.",
+  "validation.email": "Email formatı geçersiz.",
+  "common.success": "Başarılı",
+  "common.error": "Bir hata oluştu.",
+  "rate_limit.exceeded": "Çok fazla istek. Lütfen daha sonra tekrar deneyin.",
+  "permission.denied": "Bu işlem için yetkiniz yok."
+}

@@ -1,0 +1,17 @@
+[
+  {
+    "id": "RANK-005",
+    "category": "ranking",
+    "severity": "warning",
+    "message": "Tracked keyword not found in top 10 Google SERP results.",
+    "fixHint": "Improve content targeting, internal links, and resolve index blocks.",
+    "docUrl": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide"
+  },
+  {
+    "id": "RANK-006",
+    "category": "ranking",
+    "severity": "info",
+    "message": "SERP position dropped compared to the previous audit for a tracked keyword.",
+    "fixHint": "Compare competitor content and snippet quality for this query."
+  }
+]

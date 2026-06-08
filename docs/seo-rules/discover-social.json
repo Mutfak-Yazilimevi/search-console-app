@@ -1,0 +1,34 @@
+[
+  {
+    "id": "og-title-missing",
+    "category": "discover",
+    "severity": "info",
+    "message": "Open Graph og:title meta etiketi eksik.",
+    "fixHint": "Sosyal ve Discover önizlemeleri için <meta property=\"og:title\" content=\"...\"> ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/google-discover"
+  },
+  {
+    "id": "og-image-missing",
+    "category": "discover",
+    "severity": "warning",
+    "message": "Open Graph og:image eksik.",
+    "fixHint": "Discover uygunluğu için og:image ile yüksek kaliteli bir görsel (≥1200px genişlik) ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/google-discover"
+  },
+  {
+    "id": "og-image-small",
+    "category": "discover",
+    "severity": "info",
+    "message": "og:image Discover için küçük olabilir (önerilen ≥1200px genişlik).",
+    "fixHint": "Büyük, yüksek çözünürlüklü ve temsili bir görsel kullanın.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/google-discover"
+  },
+  {
+    "id": "x-robots-noindex-header",
+    "category": "x-robots-tag",
+    "severity": "warning",
+    "message": "X-Robots-Tag HTTP başlığı noindex içeriyor.",
+    "fixHint": "Sayfa indekslenmeli ise yanıt başlıklarından noindex'i kaldırın.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag"
+  }
+]

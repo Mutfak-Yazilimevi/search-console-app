@@ -1,0 +1,34 @@
+[
+  {
+    "id": "robots-meta-header-conflict",
+    "category": "x-robots-tag",
+    "severity": "warning",
+    "message": "Robots meta etiketi ile X-Robots-Tag HTTP başlığı çelişiyor.",
+    "fixHint": "Meta robots ve sunucu yanıt başlığındaki index/noindex direktiflerini tutarlı hale getirin.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag"
+  },
+  {
+    "id": "robots-nosnippet-active",
+    "category": "x-robots-tag",
+    "severity": "info",
+    "message": "nosnippet direktifi aktif — snippet ve AI özetleri sınırlanabilir.",
+    "fixHint": "Snippet gösterilmesini istiyorsanız nosnippet direktifini kaldırın.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag"
+  },
+  {
+    "id": "data-nosnippet-invalid",
+    "category": "x-robots-tag",
+    "severity": "info",
+    "message": "data-nosnippet geçersiz HTML öğesinde kullanılmış (yalnızca span/div/section geçerli).",
+    "fixHint": "data-nosnippet'i span, div veya section öğelerinde kullanın.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag"
+  },
+  {
+    "id": "x-robots-max-snippet-zero",
+    "category": "x-robots-tag",
+    "severity": "info",
+    "message": "X-Robots-Tag max-snippet:0 — arama snippet'i tamamen gizlenir.",
+    "fixHint": "Snippet gösterimi için max-snippet değerini artırın veya kaldırın.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag"
+  }
+]

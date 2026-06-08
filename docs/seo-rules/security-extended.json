@@ -1,0 +1,10 @@
+[
+  {
+    "id": "SEC-001",
+    "category": "security",
+    "severity": "warning",
+    "message": "Combined security score is low (Safe Browsing + HTTPS + security issues).",
+    "fixHint": "Resolve Safe Browsing warnings, enforce HTTPS, and fix Search Console security issues.",
+    "docUrl": "https://developers.google.com/search/docs/monitor-debug/security"
+  }
+]

@@ -1,0 +1,39 @@
+{
+  "name": "public-app",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/public-app/src",
+  "tags": ["scope:public-app", "type:app"],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/public-app",
+        "index": "apps/public-app/src/index.html",
+        "browser": "apps/public-app/src/main.ts",
+        "polyfills": [],
+        "tsConfig": "apps/public-app/tsconfig.app.json",
+        "assets": [
+          { "glob": "**/*", "input": "apps/public-app/public" },
+          { "glob": "**/*", "input": "themes", "output": "/assets/themes" }
+        ],
+        "styles": ["apps/public-app/src/styles.scss"]
+      },
+      "configurations": {
+        "production": { "optimization": true, "outputHashing": "all" },
+        "development": { "optimization": false, "sourceMap": true }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": { "port": 4200 },
+      "configurations": {
+        "production": { "buildTarget": "public-app:build:production" },
+        "development": { "buildTarget": "public-app:build:development" }
+      },
+      "defaultConfiguration": "development"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../SearchConsoleApp.Core/SearchConsoleApp.Core.csproj" />
+    <ProjectReference Include="../SearchConsoleApp.Data/SearchConsoleApp.Data.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MaxMind.GeoIP2" Version="5.2.0" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.405.7" />
+  </ItemGroup>
+  <!-- HttpContext, IHeaderDictionary (typed UserAgent/AcceptLanguage),
+       IHttpClientFactory, Hosting/Logging/Configuration abstraction'ları
+       framework reference üzerinden gelir. Tekil eski paketler
+       (Http.Abstractions 2.3.0) modern tipli header API'lerini içermiyordu. -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="MerchantCenter\Rules\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

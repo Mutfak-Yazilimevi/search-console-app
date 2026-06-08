@@ -1,0 +1,26 @@
+[
+  {
+    "id": "robots-blocks-css-js",
+    "category": "robots",
+    "severity": "warning",
+    "message": "robots.txt CSS veya JavaScript kaynaklarını engelliyor — Google sayfayı düzgün render edemeyebilir.",
+    "fixHint": "Disallow kurallarından /css, /js ve statik asset yollarını kaldırın.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/robots/robots_txt"
+  },
+  {
+    "id": "robots-syntax-warning",
+    "category": "robots",
+    "severity": "info",
+    "message": "robots.txt dosyasında syntax veya yapı uyarısı.",
+    "fixHint": "Geçerli User-agent ve Disallow satırları kullanın; boş Disallow satırlarından kaçının.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/robots/robots_txt"
+  },
+  {
+    "id": "googlebot-blocked",
+    "category": "robots",
+    "severity": "critical",
+    "message": "Googlebot User-Agent ile ana sayfaya erişilemiyor (normal tarayıcı erişimi çalışıyor olabilir).",
+    "fixHint": "Sunucu/CDN Googlebot engelini kaldırın; cloaking veya WAF kuralını kontrol edin.",
+    "docUrl": "https://developers.google.com/search/docs/essentials/technical"
+  }
+]

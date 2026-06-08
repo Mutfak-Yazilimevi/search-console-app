@@ -1,0 +1,34 @@
+[
+  {
+    "id": "dup-title",
+    "category": "content",
+    "severity": "warning",
+    "message": "Aynı başlık etiketi birden fazla sayfada kullanılıyor.",
+    "fixHint": "Her sayfaya benzersiz ve açıklayıcı bir başlık verin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/title-link"
+  },
+  {
+    "id": "dup-description",
+    "category": "content",
+    "severity": "warning",
+    "message": "Aynı meta açıklama birden fazla sayfada kullanılıyor.",
+    "fixHint": "Her sayfa için benzersiz bir meta açıklama yazın.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/snippet"
+  },
+  {
+    "id": "orphan-page",
+    "category": "links",
+    "severity": "info",
+    "message": "Bu sayfaya işaret eden dahili bağlantı yok (yetim sayfa).",
+    "fixHint": "Navigasyon veya ilgili içerikten bu sayfaya bağlantı verin.",
+    "docUrl": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide"
+  },
+  {
+    "id": "sitemap-coverage-gap",
+    "category": "sitemap",
+    "severity": "warning",
+    "message": "Site haritasındaki URL'lerin önemli bir kısmı taranmadı (coverage gap).",
+    "fixHint": "Sitemap'teki URL'lerin erişilebilir olduğundan ve robots.txt tarafından engellenmediğinden emin olun.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap"
+  }
+]

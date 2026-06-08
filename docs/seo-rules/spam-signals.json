@@ -1,0 +1,50 @@
+[
+  {
+    "id": "keyword-stuffing-title",
+    "category": "spam-signals",
+    "severity": "warning",
+    "message": "Başlıkta aynı kelime 3+ kez tekrarlanıyor (keyword stuffing).",
+    "fixHint": "Başlığı doğal ve okunabilir tutun; tekrarlayan anahtar kelimelerden kaçının.",
+    "docUrl": "https://developers.google.com/search/docs/essentials/spam-policies"
+  },
+  {
+    "id": "hidden-text-css",
+    "category": "spam-signals",
+    "severity": "warning",
+    "message": "Gizli metin şüphesi: display:none veya font-size:0 ile gizlenmiş içerik.",
+    "fixHint": "Kullanıcıya görünmeyen anahtar kelime metinlerini kaldırın.",
+    "docUrl": "https://developers.google.com/search/docs/essentials/spam-policies"
+  },
+  {
+    "id": "SPAM-003",
+    "category": "spam-signals",
+    "severity": "warning",
+    "message": "Doorway page şüphesi: çok sayıda birbirine çok benzeyen başlık.",
+    "fixHint": "Her sayfa için benzersiz, kullanıcı odaklı başlık ve içerik oluşturun.",
+    "docUrl": "https://developers.google.com/search/docs/essentials/spam-policies"
+  },
+  {
+    "id": "SPAM-004",
+    "category": "spam-signals",
+    "severity": "critical",
+    "message": "Şüpheli dış domain iframe veya script tespit edildi.",
+    "fixHint": "Güvenilmeyen üçüncü taraf script/iframe kaynaklarını kaldırın.",
+    "docUrl": "https://developers.google.com/search/docs/essentials/spam-policies"
+  },
+  {
+    "id": "SPAM-005",
+    "category": "spam-signals",
+    "severity": "warning",
+    "message": "UGC alanında dış link rel=nofollow olmadan kullanılmış.",
+    "fixHint": "Kullanıcı içeriğindeki dış bağlantılara rel=\"nofollow ugc\" ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/essentials/spam-policies"
+  },
+  {
+    "id": "SPAM-006",
+    "category": "spam-signals",
+    "severity": "warning",
+    "message": "Gövde metninde aşırı kelime tekrarı (keyword stuffing).",
+    "fixHint": "İçeriği doğal dilde yazın; aynı kelimeyi aşırı tekrarlamayın.",
+    "docUrl": "https://developers.google.com/search/docs/essentials/spam-policies"
+  }
+]

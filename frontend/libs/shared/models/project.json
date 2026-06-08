@@ -1,0 +1,11 @@
+{
+  "name": "shared-models",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/shared/models/src",
+  "tags": ["scope:shared", "type:lib"],
+  "targets": {
+    "lint": { "executor": "@nx/eslint:lint" },
+    "test": { "executor": "@nx/vite:test" }
+  }
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "video-schema-missing",
+    "category": "video",
+    "severity": "info",
+    "message": "Sayfada video embed var ancak VideoObject schema yok.",
+    "fixHint": "VideoObject JSON-LD ile video başlığı, thumbnail ve süre bilgisi ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/video"
+  },
+  {
+    "id": "image-no-srcset",
+    "category": "image",
+    "severity": "info",
+    "message": "Büyük görsellerde srcset/sizes responsive yapılandırması eksik.",
+    "fixHint": "Responsive görseller için srcset ve sizes niteliklerini kullanın.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/google-images"
+  },
+  {
+    "id": "url-too-deep",
+    "category": "technical",
+    "severity": "info",
+    "message": "URL dizin derinliği 4 seviyeden fazla.",
+    "fixHint": "Daha sığ URL yapısı kullanın (/kategori/urun yerine çok katmanlı path).",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/url-structure"
+  }
+]

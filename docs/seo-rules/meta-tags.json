@@ -1,0 +1,58 @@
+[
+  {
+    "id": "meta-title-missing",
+    "category": "meta-tags",
+    "severity": "critical",
+    "message": "Sayfada <title> etiketi eksik.",
+    "fixHint": "Belge başlığına benzersiz ve açıklayıcı bir <title> etiketi ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/title-link"
+  },
+  {
+    "id": "meta-description-missing",
+    "category": "meta-tags",
+    "severity": "warning",
+    "message": "Sayfada meta açıklaması eksik.",
+    "fixHint": "Kısa bir özet içeren <meta name=\"description\" content=\"...\"> etiketi ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/snippet"
+  },
+  {
+    "id": "https-required",
+    "category": "security",
+    "severity": "critical",
+    "message": "Sayfa HTTPS üzerinden sunulmuyor.",
+    "fixHint": "HTTP trafiğini HTTPS'e yönlendirin ve geçerli bir TLS sertifikası kullanın.",
+    "docUrl": "https://developers.google.com/search/docs/advanced/security/https"
+  },
+  {
+    "id": "title-too-short",
+    "category": "meta-tags",
+    "severity": "info",
+    "message": "Başlık etiketi 10 karakterden kısa.",
+    "fixHint": "Başlığı sayfa içeriğini net anlatacak şekilde genişletin (genelde 50–60 karakter).",
+    "docUrl": "https://developers.google.com/search/docs/appearance/title-link"
+  },
+  {
+    "id": "title-too-long",
+    "category": "meta-tags",
+    "severity": "info",
+    "message": "Başlık etiketi 70 karakteri aşıyor; arama sonuçlarında kesilebilir.",
+    "fixHint": "Başlıkları kısa tutun (ideal 50–60 karakter).",
+    "docUrl": "https://developers.google.com/search/docs/appearance/title-link"
+  },
+  {
+    "id": "viewport-missing",
+    "category": "mobile",
+    "severity": "warning",
+    "message": "Sayfada viewport meta etiketi eksik.",
+    "fixHint": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/mobile/mobile-sites-mobile-first-indexing"
+  },
+  {
+    "id": "canonical-multiple",
+    "category": "canonical",
+    "severity": "warning",
+    "message": "Sayfada birden fazla canonical bağlantısı var.",
+    "fixHint": "Yalnızca tek bir tercih edilen URL gösteren canonical kullanın.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/canonicalization"
+  }
+]

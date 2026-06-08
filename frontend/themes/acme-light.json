@@ -1,0 +1,37 @@
+{
+  "name": "acme-light",
+  "displayName": "Acme Corp",
+  "mode": "light",
+  "colors": {
+    "primary": "#0f4c81",
+    "primaryHover": "#0a3a66",
+    "primaryActive": "#062a4a",
+    "primaryForeground": "#ffffff",
+
+    "success": "#0f7c3f",
+    "warning": "#b45309",
+    "danger": "#b91c1c",
+    "info": "#0e7490",
+
+    "background": "#fafbfc",
+    "surface": "#ffffff",
+    "surfaceElevated": "#ffffff",
+
+    "text": "#1a202c",
+    "textMuted": "#4a5568",
+    "textSubtle": "#a0aec0",
+
+    "border": "#e2e8f0",
+    "borderStrong": "#cbd5e0"
+  },
+  "fonts": {
+    "sans": "'Inter', system-ui, sans-serif",
+    "mono": "'JetBrains Mono', ui-monospace, monospace"
+  },
+  "radius": { "sm": "0.125rem", "md": "0.25rem", "lg": "0.5rem", "full": "9999px" },
+  "shadow": {
+    "sm": "0 1px 3px 0 rgb(15 76 129 / 0.08)",
+    "md": "0 4px 8px -2px rgb(15 76 129 / 0.12)",
+    "lg": "0 12px 24px -4px rgb(15 76 129 / 0.16)"
+  }
+}

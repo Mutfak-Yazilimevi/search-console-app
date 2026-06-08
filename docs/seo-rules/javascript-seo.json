@@ -1,0 +1,66 @@
+[
+  {
+    "id": "js-title-missing-static",
+    "category": "javascript",
+    "severity": "critical",
+    "message": "Ham HTML'de başlık boş; JavaScript render sonrası dolu — Google indekslemeyi geciktirebilir.",
+    "fixHint": "Anlamlı <title> etiketini ilk HTML'de sağlayın veya SSR kullanın.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics"
+  },
+  {
+    "id": "js-title-changed",
+    "category": "javascript",
+    "severity": "warning",
+    "message": "Ham HTML ile render edilmiş DOM arasında başlık farklı.",
+    "fixHint": "Başlığı tutarlı tutun; gereksiz yere sayfa yüklendikten sonra değiştirmeyin.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics"
+  },
+  {
+    "id": "js-h1-missing-static",
+    "category": "javascript",
+    "severity": "warning",
+    "message": "Ham HTML'de H1 yok; JavaScript render sonrası görünüyor.",
+    "fixHint": "Ana başlığı sunucu tarafında render edilen HTML'de sağlayın.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics"
+  },
+  {
+    "id": "js-hash-routing",
+    "category": "javascript",
+    "severity": "warning",
+    "message": "Dahili bağlantılar gerçek URL yerine hash (#/) yönlendirmesi kullanıyor.",
+    "fixHint": "Tarayılabilir bağlantılar için History API ile uygun href yolları kullanın.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics"
+  },
+  {
+    "id": "link-not-crawlable",
+    "category": "links",
+    "severity": "warning",
+    "message": "Bağlantı javascript: veya taranamayan href kullanıyor.",
+    "fixHint": "Çözülebilir bir URL ile <a href=\"/yol\"> kullanın.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/links-crawlable"
+  },
+  {
+    "id": "js-soft-404",
+    "category": "javascript",
+    "severity": "warning",
+    "message": "Soft 404 şüphesi: HTTP 200 ancak içerik 'bulunamadı' sinyali veriyor veya render sonrası değişiyor.",
+    "fixHint": "Gerçek 404 HTTP durumu döndürün veya anlamlı 200 içerik sağlayın.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics"
+  },
+  {
+    "id": "js-lazy-content",
+    "category": "javascript",
+    "severity": "warning",
+    "message": "Render sonrası içerik belirgin şekilde artıyor — lazy-loaded içerik Googlebot'ta eksik kalabilir.",
+    "fixHint": "Kritik içeriği ilk HTML yanıtında sağlayın veya SSR kullanın.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/javascript/lazy-loading"
+  },
+  {
+    "id": "js-cloaking-score",
+    "category": "javascript",
+    "severity": "critical",
+    "message": "Static HTML ile render edilmiş DOM arasında büyük fark — cloaking riski.",
+    "fixHint": "Bot ve kullanıcıya aynı temel içeriği sunun; title/H1/kelime farkını azaltın.",
+    "docUrl": "https://developers.google.com/search/docs/essentials/spam-policies"
+  }
+]

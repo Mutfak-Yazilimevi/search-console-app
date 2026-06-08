@@ -1,0 +1,18 @@
+[
+  {
+    "id": "INTL-001",
+    "category": "international",
+    "severity": "warning",
+    "message": "hreflang grafında karşılıklı (reciprocal) referans eksik.",
+    "fixHint": "Her yerelleştirilmiş sayfa diğer tüm alternatiflere geri hreflang bağlantısı vermeli.",
+    "docUrl": "https://developers.google.com/search/docs/specialty/international/localized-versions"
+  },
+  {
+    "id": "INTL-002",
+    "category": "international",
+    "severity": "info",
+    "message": "ccTLD alan adı kullanılıyor; çok dilli yapı için subdomain veya alt dizin stratejisini gözden geçirin.",
+    "fixHint": "Uluslararası hedefleme için gsc hreflang + tutarlı URL yapısı kullanın.",
+    "docUrl": "https://developers.google.com/search/docs/specialty/international/managing-multi-regional-sites"
+  }
+]

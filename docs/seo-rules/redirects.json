@@ -1,0 +1,26 @@
+[
+  {
+    "id": "redirect-chain-long",
+    "category": "technical",
+    "severity": "warning",
+    "message": "URL uzun bir yönlendirme zinciri kullanıyor (3+ atlama).",
+    "fixHint": "Doğrudan hedef URL'ye 301 yönlendirmesi kullanın; zincirleri kısaltın.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/301-redirects"
+  },
+  {
+    "id": "meta-charset-missing",
+    "category": "meta-tags",
+    "severity": "info",
+    "message": "Sayfada charset meta etiketi veya UTF-8 bildirimi eksik.",
+    "fixHint": "<meta charset=\"utf-8\"> ekleyin (head'in en başında).",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/special-tags"
+  },
+  {
+    "id": "robots-blocks-all",
+    "category": "robots",
+    "severity": "critical",
+    "message": "robots.txt tüm siteyi tarayıcıdan engelliyor (Disallow: /).",
+    "fixHint": "Yalnızca gerçekten gizlenecek yolları engelleyin; tüm siteyi Disallow etmeyin.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/robots/robots_txt"
+  }
+]

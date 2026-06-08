@@ -1,0 +1,19 @@
+{
+  "auth.invalid_credentials": "Email or password is incorrect.",
+  "auth.account_disabled": "Account is not active.",
+  "auth.duplicate_email": "An account with this email already exists.",
+  "auth.token_invalid": "Token is invalid or has expired.",
+  "auth.2fa_required": "Two-factor authentication required.",
+  "auth.2fa_invalid": "Two-factor code is invalid.",
+  "auth.preauth_invalid": "Pre-auth token is invalid or has expired.",
+  "auth.password_min_length": "Password must be at least 8 characters.",
+  "auth.password_wrong": "Current password is incorrect.",
+  "session.revoked": "Your session has been revoked.",
+  "session.expired": "Your session has expired. Please sign in again.",
+  "validation.required": "{0} is required.",
+  "validation.email": "Email format is invalid.",
+  "common.success": "Success",
+  "common.error": "An error occurred.",
+  "rate_limit.exceeded": "Too many requests. Please try again later.",
+  "permission.denied": "You don't have permission for this operation."
+}

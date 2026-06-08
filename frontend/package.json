@@ -1,0 +1,45 @@
+{
+  "name": "SearchConsoleApp-frontend",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start:public": "nx serve public-app",
+    "start:web": "nx serve web-app",
+    "start:admin": "nx serve admin-app",
+    "build:public": "npm run generate:rules && nx build public-app",
+    "build:web": "nx build web-app",
+    "build:admin": "nx build admin-app",
+    "build:all": "npm run generate:rules && nx run-many -t build -p public-app,web-app,admin-app",
+    "generate:rules": "node ../tools/generate-rule-catalog.mjs",
+    "test": "nx run-many -t test",
+    "lint": "nx run-many -t lint",
+    "graph": "nx graph"
+  },
+  "dependencies": {
+    "@angular/animations": "~21.2.0",
+    "@angular/common": "~21.2.0",
+    "@angular/compiler": "~21.2.0",
+    "@angular/core": "~21.2.0",
+    "@angular/forms": "~21.2.0",
+    "@angular/platform-browser": "~21.2.0",
+    "@angular/router": "~21.2.0",
+    "@microsoft/signalr": "~8.0.7",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "~21.2.0",
+    "@angular/cli": "~21.2.0",
+    "@angular/compiler-cli": "~21.2.0",
+    "@nx/angular": "21.6.11",
+    "@nx/eslint": "21.6.11",
+    "@nx/eslint-plugin": "21.6.11",
+    "@nx/vite": "21.6.11",
+    "@nx/workspace": "21.6.11",
+    "@types/node": "^20.0.0",
+    "nx": "21.6.11",
+    "typescript": "~5.9.0",
+    "vitest": "^2.0.0"
+  }
+}

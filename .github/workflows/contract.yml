@@ -1,0 +1,70 @@
+name: API Contract Check
+
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'frontend/libs/shared/models/src/lib/generated.ts'
+      - 'mobile/app/src/models/generated.ts'
+      - 'tools/openapi-codegen/**'
+
+jobs:
+  contract:
+    name: OpenAPI types up-to-date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Backend'i background'da çalıştır
+      - name: Start backend
+        run: |
+          dotnet restore SearchConsoleApp.sln
+          dotnet run --project src/SearchConsoleApp.Web/SearchConsoleApp.Web.csproj \
+            --no-restore \
+            --urls http://localhost:5000 \
+            > /tmp/backend.log 2>&1 &
+          echo $! > /tmp/backend.pid
+
+      - name: Wait for backend
+        run: |
+          for i in {1..30}; do
+            if curl -fsS http://localhost:5000/health/live; then
+              echo "Backend ready"
+              break
+            fi
+            sleep 2
+          done
+
+      # Regenerate
+      - name: Generate OpenAPI types
+        run: |
+          cd tools/openapi-codegen
+          npm install
+          node generate.mjs
+
+      - name: Stop backend
+        if: always()
+        run: kill $(cat /tmp/backend.pid) || true
+
+      # Diff kontrolü — değişiklik varsa PR'da regenerate edilmeli
+      - name: Check for changes
+        run: |
+          if [[ -n "$(git status --porcelain frontend/libs/shared/models/src/lib/generated.ts mobile/app/src/models/generated.ts)" ]]; then
+            echo "::error::OpenAPI generated.ts dosyaları güncel değil."
+            echo "Çözüm: Backend'i çalıştır, sonra:"
+            echo "  cd tools/openapi-codegen && node generate.mjs"
+            echo "Sonra üretilen dosyaları commit'le."
+            echo ""
+            echo "Diff:"
+            git diff frontend/libs/shared/models/src/lib/generated.ts mobile/app/src/models/generated.ts
+            exit 1
+          fi
+          echo "✓ generated.ts dosyaları güncel"

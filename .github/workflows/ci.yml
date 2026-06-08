@@ -1,0 +1,168 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+env:
+  DOTNET_VERSION: '9.0.x'
+  NODE_VERSION: '22'
+
+jobs:
+  # === Backend: build + test ===
+  backend:
+    name: Backend (.NET)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: nuget-${{ runner.os }}-
+
+      - name: Restore
+        run: |
+          dotnet restore src/SearchConsoleApp.Core/SearchConsoleApp.Core.csproj
+          dotnet restore src/SearchConsoleApp.Data/SearchConsoleApp.Data.csproj
+          dotnet restore src/SearchConsoleApp.Services/SearchConsoleApp.Services.csproj
+          dotnet restore src/SearchConsoleApp.Web.Framework/SearchConsoleApp.Web.Framework.csproj
+          dotnet restore src/SearchConsoleApp.Web/SearchConsoleApp.Web.csproj
+          dotnet restore tests/SearchConsoleApp.IntegrationTests/SearchConsoleApp.IntegrationTests.csproj
+
+      - name: Build
+        run: dotnet build SearchConsoleApp.sln --no-restore --configuration Release
+
+      - name: Test
+        # Not: --logger/--collect/--no-build gibi vstest'e özel argümanlar,
+        # güncel .NET 9 SDK'larında dotnet test'in Microsoft.Testing.Platform
+        # moduna düşmesi durumunda reddediliyor ("argument .dll is invalid").
+        # Minimal komut hem klasik VSTest hem MTP modunda çalışır.
+        run: dotnet test tests/SearchConsoleApp.IntegrationTests/SearchConsoleApp.IntegrationTests.csproj --configuration Release
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: TestResults/
+          if-no-files-found: warn
+
+      - name: Coverage report
+        if: always()
+        run: |
+          dotnet tool install --global dotnet-reportgenerator-globaltool
+          if find TestResults -name "*.xml" 2>/dev/null | grep -q .; then
+            reportgenerator \
+              "-reports:TestResults/**/coverage.cobertura.xml" \
+              "-targetdir:coverage" \
+              "-reporttypes:HtmlSummary;Cobertura"
+          else
+            echo "Coverage XML bulunamadi, rapor atlanıyor."
+          fi
+
+      - name: Upload coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/
+          if-no-files-found: warn
+
+  # === Frontend: build (Nx affected) ===
+  frontend:
+    name: Frontend (Angular/Nx)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # Nx affected için git history gerekli
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install
+        run: npm ci --legacy-peer-deps
+
+      - name: Lint (affected)
+        run: npx nx affected -t lint --base=origin/main
+
+      - name: Test (affected)
+        run: npx nx affected -t test --base=origin/main
+
+      - name: Build all apps
+        run: npx nx run-many -t build --configuration=production --parallel=3
+
+  # === Docker images (sadece main branch) ===
+  docker:
+    name: Docker Build
+    runs-on: ubuntu-latest
+    needs: [backend]
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Backend image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/api:latest
+            ghcr.io/${{ github.repository }}/api:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Frontend web image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./frontend/Dockerfile
+          build-args: APP=web-app
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/web:latest
+            ghcr.io/${{ github.repository }}/web:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Frontend admin image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./frontend/Dockerfile
+          build-args: APP=admin-app
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/admin:latest
+            ghcr.io/${{ github.repository }}/admin:${{ github.sha }}

@@ -1,0 +1,17 @@
+[
+  {
+    "id": "LINK-EXT-001",
+    "category": "backlinks",
+    "severity": "info",
+    "message": "High orphan page ratio — internal link graph is weak.",
+    "fixHint": "Strengthen navigation and contextual internal links."
+  },
+  {
+    "id": "LINK-EXT-002",
+    "category": "backlinks",
+    "severity": "info",
+    "message": "Low external referring domain count from third-party API.",
+    "fixHint": "Build quality backlinks through content and digital PR.",
+    "docUrl": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content"
+  }
+]

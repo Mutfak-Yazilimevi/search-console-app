@@ -1,0 +1,76 @@
+{
+  "common": {
+    "appName": "SearchConsoleApp",
+    "loading": "Yükleniyor…",
+    "error": "Hata",
+    "retry": "Tekrar dene",
+    "cancel": "İptal",
+    "save": "Kaydet",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "logout": "Çıkış",
+    "back": "Geri",
+    "search": "Ara",
+    "empty": "Henüz bir şey yok"
+  },
+  "auth": {
+    "login": "Giriş",
+    "register": "Kayıt Ol",
+    "email": "E-posta",
+    "password": "Şifre",
+    "loginButton": "Giriş Yap",
+    "loginFailed": "Giriş başarısız",
+    "emailRequired": "E-posta zorunlu",
+    "emailInvalid": "Geçersiz e-posta adresi",
+    "passwordRequired": "Şifre zorunlu",
+    "passwordTooShort": "Şifre en az 8 karakter olmalı"
+  },
+  "navigation": {
+    "home": "Ana Sayfa",
+    "profile": "Profil",
+    "settings": "Ayarlar",
+    "sessions": "Oturumlar",
+    "customers": "Müşteriler"
+  },
+  "sessions": {
+    "title": "Aktif Oturumlar",
+    "current": "Bu cihaz",
+    "revoke": "Bu oturumu kapat",
+    "revokeOthers": "Diğer Cihazlardan Çık",
+    "lastActivity": "Son aktivite",
+    "empty": "Aktif oturum yok."
+  },
+  "twoFactor": {
+    "title": "İki Faktörlü Doğrulama",
+    "status": "Durum",
+    "enabled": "Aktif",
+    "disabled": "Kapalı",
+    "setup": "Kur",
+    "disable": "Kapat",
+    "code": "Doğrulama kodu",
+    "useRecovery": "Recovery code kullan",
+    "scanQr": "Authenticator uygulamasıyla QR'ı tarayın",
+    "recoveryCodes": "Recovery Kodları",
+    "recoveryWarning": "Bu kodları güvenli bir yere kaydedin. Tek kullanımlık.",
+    "regenerate": "Yeniden üret"
+  },
+  "profile": {
+    "title": "Profilim",
+    "name": "Ad",
+    "email": "E-posta",
+    "memberSince": "Üyelik tarihi",
+    "status": "Durum",
+    "active": "Aktif",
+    "inactive": "Pasif",
+    "theme": "Tema",
+    "systemTheme": "Sistem ayarını kullan",
+    "language": "Dil"
+  },
+  "errors": {
+    "network": "Sunucuya ulaşılamıyor. Bağlantınızı kontrol edin.",
+    "unauthorized": "Oturum süresi doldu. Lütfen tekrar giriş yapın.",
+    "forbidden": "Bu işlem için yetkiniz yok.",
+    "notFound": "Bulunamadı.",
+    "generic": "Bir şeyler ters gitti."
+  }
+}

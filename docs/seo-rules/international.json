@@ -1,0 +1,26 @@
+[
+  {
+    "id": "hreflang-missing-x-default",
+    "category": "international",
+    "severity": "warning",
+    "message": "hreflang işaretlemeleri var ancak x-default eksik.",
+    "fixHint": "Yedek sayfa için hreflang=\"x-default\" ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/specialty/international/localized-versions"
+  },
+  {
+    "id": "hreflang-missing-return",
+    "category": "international",
+    "severity": "warning",
+    "message": "hreflang bağlantısında hedef dilde karşılıklı referans eksik olabilir.",
+    "fixHint": "Her yerelleştirilmiş sayfa kendisi dahil tüm alternatiflere geri bağlantı vermelidir.",
+    "docUrl": "https://developers.google.com/search/docs/specialty/international/localized-versions"
+  },
+  {
+    "id": "html-lang-missing",
+    "category": "international",
+    "severity": "warning",
+    "message": "html öğesinde lang niteliği eksik.",
+    "fixHint": "<html lang=\"tr\"> (veya uygun dil kodu) ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/specialty/international/localized-versions"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "geo-faq-missing",
+    "category": "geo-ai",
+    "severity": "info",
+    "message": "Sayfada AI Özetleri'nin sitenizi kaynak göstermesine yardımcı SSS tarzı yapılandırılmış içerik yok.",
+    "fixHint": "Sık sorulan sorular için net soru-cevap bölümleri veya FAQPage şeması ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/structured-data/faqpage"
+  },
+  {
+    "id": "geo-summary-missing",
+    "category": "geo-ai",
+    "severity": "info",
+    "message": "Sayfanın üst kısmında üretken arama snippet'leri için kısa bir özet paragraf yok.",
+    "fixHint": "İçeriğin en üstüne ana arama niyetini yanıtlayan 2–3 cümlelik bir özet ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content"
+  },
+  {
+    "id": "geo-ai-disclosure",
+    "category": "geo-ai",
+    "severity": "warning",
+    "message": "Yapay zekâ ile üretilmiş içerik tespit edildi; okuyucuya açık bir bildirim yok.",
+    "fixHint": "İçerik yapay zekâ destekliyse bunu belirtin ve doğruluk için insan incelemesi sağlayın.",
+    "docUrl": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content"
+  }
+]

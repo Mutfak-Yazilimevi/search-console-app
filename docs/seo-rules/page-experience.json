@@ -1,0 +1,18 @@
+[
+  {
+    "id": "intrusive-interstitial",
+    "category": "page-experience",
+    "severity": "warning",
+    "message": "Tam ekran popup veya interstitial şüphesi tespit edildi.",
+    "fixHint": "Sayfa yüklenirken tam ekran reklam/popup kullanmayın; kullanıcı deneyimini bozar.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/avoid-intrusive-interstitials"
+  },
+  {
+    "id": "max-image-preview-missing",
+    "category": "discover",
+    "severity": "info",
+    "message": "max-image-preview:large robots meta yok — Discover için büyük görsel önizleme sınırlı olabilir.",
+    "fixHint": "<meta name=\"robots\" content=\"max-image-preview:large\"> ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/google-discover"
+  }
+]

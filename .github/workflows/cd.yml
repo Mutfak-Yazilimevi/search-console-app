@@ -1,0 +1,66 @@
+name: CD - Deploy
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deploy environment'
+        required: true
+        default: staging
+        type: choice
+        options:
+          - staging
+          - production
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    # CI başarılı olmadan deploy etme
+    if: github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch'
+    environment: ${{ github.event.inputs.environment || 'staging' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # Bu adım deployment hedefine göre değişir.
+      # Örnekler:
+      #
+      # A) Azure App Service:
+      # - uses: azure/login@v2
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+      # - uses: azure/webapps-deploy@v3
+      #   with:
+      #     app-name: SearchConsoleApp-api
+      #     images: ghcr.io/${{ github.repository }}/api:${{ github.sha }}
+      #
+      # B) AWS ECS:
+      # - uses: aws-actions/configure-aws-credentials@v4
+      # - uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+      #
+      # C) Kubernetes (kubectl):
+      # - uses: azure/setup-kubectl@v4
+      # - run: |
+      #     kubectl set image deployment/api api=ghcr.io/${{ github.repository }}/api:${{ github.sha }}
+      #     kubectl rollout status deployment/api --timeout=5m
+      #
+      # D) SSH + docker compose:
+      # - uses: appleboy/ssh-action@v1
+      #   with:
+      #     host: ${{ secrets.DEPLOY_HOST }}
+      #     username: ${{ secrets.DEPLOY_USER }}
+      #     key: ${{ secrets.DEPLOY_KEY }}
+      #     script: |
+      #       cd /opt/SearchConsoleApp
+      #       docker compose pull
+      #       docker compose up -d
+
+      - name: Placeholder
+        run: |
+          echo "Deploy to ${{ github.event.inputs.environment || 'staging' }}"
+          echo "Image: ghcr.io/${{ github.repository }}/api:${{ github.sha }}"
+          echo "Bu workflow'u gerçek deploy hedefine göre özelleştir."

@@ -1,0 +1,5 @@
+[
+  { "name": "default-light", "displayName": "Varsayılan Açık", "mode": "light" },
+  { "name": "default-dark", "displayName": "Varsayılan Koyu", "mode": "dark" },
+  { "name": "acme-light", "displayName": "Acme Corp", "mode": "light" }
+]

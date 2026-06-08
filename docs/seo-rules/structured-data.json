@@ -1,0 +1,26 @@
+[
+  {
+    "id": "json-ld-invalid",
+    "category": "structured-data",
+    "severity": "warning",
+    "message": "JSON-LD bloğu geçersiz JSON içeriyor.",
+    "fixHint": "Yapılandırılmış veriyi Google Zengin Sonuçlar Testi ile doğrulayın.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data"
+  },
+  {
+    "id": "json-ld-missing",
+    "category": "structured-data",
+    "severity": "info",
+    "message": "Sayfada JSON-LD yapılandırılmış veri bulunamadı.",
+    "fixHint": "Zengin sonuç uygunluğu için ilgili schema.org JSON-LD ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data"
+  },
+  {
+    "id": "data-vocabulary-deprecated",
+    "category": "structured-data",
+    "severity": "critical",
+    "message": "Kullanımdan kaldırılmış data-vocabulary.org işaretlemesi tespit edildi.",
+    "fixHint": "schema.org JSON-LD formatına geçin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data"
+  }
+]

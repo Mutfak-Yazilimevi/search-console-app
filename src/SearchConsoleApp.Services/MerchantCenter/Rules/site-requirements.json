@@ -1,0 +1,74 @@
+[
+  {
+    "id": "GMC-SITE-001",
+    "field": "return-policy",
+    "severity": "warning",
+    "message": "İade politikası sayfası bulunamadı.",
+    "fixHint": "Açık iade koşulları sayfası ekleyin ve footer'dan linkleyin.",
+    "docUrl": "https://support.google.com/merchants/answer/6150127?hl=tr",
+    "patterns": ["iade", "return", "iptal", "refund"]
+  },
+  {
+    "id": "GMC-SITE-002",
+    "field": "shipping",
+    "severity": "warning",
+    "message": "Kargo/teslimat bilgisi bulunamadı.",
+    "fixHint": "Teslimat süresi ve ücretlerini açıklayan sayfa veya bölüm ekleyin.",
+    "docUrl": "https://support.google.com/merchants/answer/6150127?hl=tr",
+    "patterns": ["kargo", "shipping", "teslimat", "delivery"]
+  },
+  {
+    "id": "GMC-SITE-003",
+    "field": "payment",
+    "severity": "info",
+    "message": "Ödeme yöntemleri bilgisi bulunamadı.",
+    "fixHint": "Kabul edilen ödeme yöntemlerini listeleyin.",
+    "docUrl": "https://support.google.com/merchants/answer/6150127?hl=tr",
+    "patterns": ["ödeme", "payment", "checkout", "odeme"]
+  },
+  {
+    "id": "GMC-SITE-004",
+    "field": "contact",
+    "severity": "warning",
+    "message": "İletişim bilgisi yetersiz.",
+    "fixHint": "Telefon, e-posta veya adres içeren iletişim sayfası ekleyin.",
+    "docUrl": "https://support.google.com/merchants/answer/6150127?hl=tr",
+    "patterns": ["iletisim", "contact", "bize-ulasin", "reach-us"]
+  },
+  {
+    "id": "GMC-SITE-005",
+    "field": "about",
+    "severity": "info",
+    "message": "Hakkımızda sayfası bulunamadı.",
+    "fixHint": "Güvenilirlik için hakkımızda sayfası ekleyin.",
+    "docUrl": "https://support.google.com/merchants/answer/6150127?hl=tr",
+    "patterns": ["hakkimizda", "hakkımızda", "about", "about-us", "kurumsal"]
+  },
+  {
+    "id": "GMC-SITE-006",
+    "field": "privacy",
+    "severity": "warning",
+    "message": "Gizlilik / KVKK sayfası bulunamadı.",
+    "fixHint": "Gizlilik politikası ve KVKK metni ekleyin.",
+    "docUrl": "https://support.google.com/merchants/answer/6150127?hl=tr",
+    "patterns": ["gizlilik", "privacy", "kvkk", "kişisel veri", "kisisel veri"]
+  },
+  {
+    "id": "GMC-SITE-007",
+    "field": "checkout",
+    "severity": "info",
+    "message": "Güvenli ödeme/checkout sayfası ipucu bulunamadı.",
+    "fixHint": "Ödeme adımı HTTPS ve güvenli olmalı.",
+    "docUrl": "https://support.google.com/merchants/answer/6150127?hl=tr",
+    "patterns": ["checkout", "odeme", "ödeme", "sepet", "cart", "ssl", "secure payment"]
+  },
+  {
+    "id": "GMC-SITE-008",
+    "field": "schema-policy",
+    "severity": "info",
+    "message": "MerchantReturnPolicy veya OfferShippingDetails schema bulunamadı.",
+    "fixHint": "Schema.org MerchantReturnPolicy ve OfferShippingDetails ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/structured-data/product",
+    "patterns": ["merchantreturnpolicy", "offershippingdetails", "shippingdetails"]
+  }
+]

@@ -1,0 +1,24 @@
+[
+  {
+    "id": "MOB-001",
+    "category": "mobile-friendly",
+    "severity": "critical",
+    "message": "Viewport meta tag missing or invalid — mobile usability risk.",
+    "fixHint": "Add width=device-width, initial-scale=1 viewport meta tag.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/mobile/mobile-sites-mobile-first-indexing"
+  },
+  {
+    "id": "MOB-002",
+    "category": "mobile-friendly",
+    "severity": "warning",
+    "message": "Tap targets too small or too close together.",
+    "fixHint": "Make buttons/links at least 48px with adequate spacing."
+  },
+  {
+    "id": "MOB-003",
+    "category": "mobile-friendly",
+    "severity": "warning",
+    "message": "Font size too small for comfortable mobile reading.",
+    "fixHint": "Use at least 16px body font size on mobile."
+  }
+]

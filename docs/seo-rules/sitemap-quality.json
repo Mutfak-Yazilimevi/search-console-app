@@ -1,0 +1,26 @@
+[
+  {
+    "id": "sitemap-xml-invalid",
+    "category": "sitemap",
+    "severity": "warning",
+    "message": "Site haritası geçersiz XML veya erişilemiyor.",
+    "fixHint": "Sitemap XML sözdizimini doğrulayın; tüm <loc> URL'lerinin 200 döndüğünden emin olun.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap"
+  },
+  {
+    "id": "sitemap-lastmod-invalid",
+    "category": "sitemap",
+    "severity": "info",
+    "message": "Site haritasında geçersiz veya gelecek lastmod tarihleri var.",
+    "fixHint": "lastmod değerlerini ISO 8601 formatında ve gerçek güncelleme tarihiyle güncelleyin.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap"
+  },
+  {
+    "id": "sitemap-loc-unreachable",
+    "category": "sitemap",
+    "severity": "warning",
+    "message": "Site haritasındaki bazı URL'ler erişilemiyor (4xx/5xx).",
+    "fixHint": "Kırık <loc> URL'lerini düzeltin veya sitemap'ten kaldırın.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap"
+  }
+]

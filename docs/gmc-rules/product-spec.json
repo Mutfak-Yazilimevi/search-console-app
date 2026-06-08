@@ -1,0 +1,258 @@
+[
+  {
+    "id": "GMC-SPEC-001",
+    "field": "id",
+    "severity": "warning",
+    "message": "Ürün kimliği (id/sku) bulunamadı.",
+    "fixHint": "Feed ve Product schema'ya benzersiz id veya sku ekleyin; SKU ile eşleşmeli.",
+    "docUrl": "https://support.google.com/merchants/answer/6324405?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-002",
+    "field": "title",
+    "severity": "warning",
+    "message": "Ürün başlığı eksik veya 150 karakterden uzun.",
+    "fixHint": "Başlığı 150 karakter altına indirin; marka + ürün adı + varyant formatı kullanın.",
+    "docUrl": "https://support.google.com/merchants/answer/6324415?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-003",
+    "field": "description",
+    "severity": "info",
+    "message": "Ürün açıklaması eksik veya çok kısa.",
+    "fixHint": "En az 500 karakter benzersiz, bilgilendirici açıklama ekleyin.",
+    "docUrl": "https://support.google.com/merchants/answer/6324468?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-004",
+    "field": "link",
+    "severity": "critical",
+    "message": "Ürün URL'si indexlenemiyor veya canonical sorunu var.",
+    "fixHint": "Indexlenebilir canonical ürün URL'si sağlayın; noindex kaldırın.",
+    "docUrl": "https://support.google.com/merchants/answer/6324416?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-005",
+    "field": "image",
+    "severity": "critical",
+    "message": "Ürün görseli eksik veya HTTPS değil.",
+    "fixHint": "HTTPS ile erişilebilir, min 100×100 (tercihen 800×800) ürün görseli ekleyin.",
+    "docUrl": "https://support.google.com/merchants/answer/6324370?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-006",
+    "field": "price",
+    "severity": "critical",
+    "message": "Offer fiyatı eksik veya geçersiz.",
+    "fixHint": "Offer.price ve priceCurrency (TRY) değerlerini ekleyin.",
+    "docUrl": "https://support.google.com/merchants/answer/6324371?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-007",
+    "field": "availability",
+    "severity": "critical",
+    "message": "Stok durumu (availability) eksik.",
+    "fixHint": "InStock, OutOfStock veya PreOrder değerini schema ve feed'e ekleyin.",
+    "docUrl": "https://support.google.com/merchants/answer/6324448?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-008",
+    "field": "brand",
+    "severity": "warning",
+    "message": "Marka (brand) eksik.",
+    "fixHint": "Marka adını Product schema ve Merchant Center feed'ine ekleyin.",
+    "docUrl": "https://support.google.com/merchants/answer/6324351?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-009",
+    "field": "gtin",
+    "severity": "warning",
+    "message": "GTIN veya MPN eksik.",
+    "fixHint": "GTIN (barkod) ekleyin; yoksa brand + MPN kombinasyonu kullanın.",
+    "docUrl": "https://support.google.com/merchants/answer/6324461?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-010",
+    "field": "condition",
+    "severity": "info",
+    "message": "Ürün durumu (condition) belirtilmemiş.",
+    "fixHint": "new, refurbished veya used değerini belirtin.",
+    "docUrl": "https://support.google.com/merchants/answer/6324467?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-011",
+    "field": "schema",
+    "severity": "warning",
+    "message": "Product JSON-LD schema bulunamadı.",
+    "fixHint": "Product + Offer JSON-LD ekleyin; zorunlu alanları doldurun.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/structured-data/product"
+  },
+  {
+    "id": "GMC-SPEC-012",
+    "field": "price",
+    "severity": "warning",
+    "message": "Schema fiyatı ile sayfada görünen fiyat uyuşmuyor.",
+    "fixHint": "Sayfa ve schema fiyatlarını eşitleyin; indirimli fiyatta price ve salePrice kullanın.",
+    "docUrl": "https://support.google.com/merchants/answer/6324371?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-014",
+    "field": "priceCurrency",
+    "severity": "warning",
+    "message": "Para birimi TRY değil veya eksik.",
+    "fixHint": "Türkiye mağazaları için Offer.priceCurrency değerini TRY yapın.",
+    "docUrl": "https://support.google.com/merchants/answer/6324371?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-013",
+    "field": "salePrice",
+    "severity": "warning",
+    "message": "İndirimli fiyatta liste ve indirimli fiyat birlikte belirtilmemiş.",
+    "fixHint": "Liste fiyatını price, indirimli fiyatı salePrice olarak verin.",
+    "docUrl": "https://support.google.com/merchants/answer/6324371?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-015",
+    "field": "image",
+    "severity": "info",
+    "message": "Yalnızca tek ürün görseli var.",
+    "fixHint": "En az 2–3 farklı açıdan ürün görseli ekleyin.",
+    "docUrl": "https://support.google.com/merchants/answer/6324370?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-016",
+    "field": "image",
+    "severity": "warning",
+    "message": "Ürün görseli boyutu GMC minimumunun altında.",
+    "fixHint": "Görselleri en az 800×800 px (minimum 100×100) yükleyin.",
+    "docUrl": "https://support.google.com/merchants/answer/6324370?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-018",
+    "field": "item_group_id",
+    "severity": "warning",
+    "message": "Varyant üründe item_group_id eksik.",
+    "fixHint": "Aynı ürünün varyantlarına ortak item_group_id verin.",
+    "docUrl": "https://support.google.com/merchants/answer/6324503?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-021",
+    "field": "sku",
+    "severity": "warning",
+    "message": "Schema SKU ile sayfadaki SKU uyuşmuyor.",
+    "fixHint": "Sayfa, schema ve feed SKU değerlerini eşitleyin.",
+    "docUrl": "https://support.google.com/merchants/answer/6324405?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-022",
+    "field": "schema",
+    "severity": "info",
+    "message": "Product JSON-LD yok; yalnızca Open Graph product meta var.",
+    "fixHint": "Product JSON-LD birincil format olmalı; og meta yedek olarak tutulabilir.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/structured-data/product"
+  },
+  {
+    "id": "GMC-SPEC-024",
+    "field": "aggregateRating",
+    "severity": "warning",
+    "message": "Schema'da puan var ancak sayfada görünür yorum bulunamadı.",
+    "fixHint": "Schema'daki puan/yorum sayfada görünür olmalı.",
+    "docUrl": "https://support.google.com/merchants/answer/6150127?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-027",
+    "field": "link",
+    "severity": "warning",
+    "message": "Canonical URL farklı bir adrese işaret ediyor.",
+    "fixHint": "Canonical, satış yapılan ürün URL'si olmalı.",
+    "docUrl": "https://support.google.com/merchants/answer/6324416?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-029",
+    "field": "image",
+    "severity": "info",
+    "message": "Ana ürün görselinde alt metni yok.",
+    "fixHint": "Görsel alt metnine ürün adını yazın.",
+    "docUrl": "https://support.google.com/merchants/answer/6324370?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-017",
+    "field": "identifier_exists",
+    "severity": "warning",
+    "message": "identifier_exists=false ancak GTIN/MPN belirtilmiş.",
+    "fixHint": "identifier_exists değerini kaldırın veya tanımlayıcıları feed'den çıkarın.",
+    "docUrl": "https://support.google.com/merchants/answer/6324461?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-019",
+    "field": "title",
+    "severity": "warning",
+    "message": "Başlıkta promosyon / spam ifadeler var.",
+    "fixHint": "Başlıktan kampanya, indirim veya pazarlama sloganı çıkarın; yalnızca ürün bilgisi kullanın.",
+    "docUrl": "https://support.google.com/merchants/answer/6324415?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-020",
+    "field": "shipping",
+    "severity": "info",
+    "message": "Kargo veya iade structured data bulunamadı.",
+    "fixHint": "shippingDetails ve hasMerchantReturnPolicy alanlarını Product/Offer schema'ya ekleyin.",
+    "docUrl": "https://support.google.com/merchants/answer/9888656?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-023",
+    "field": "link",
+    "severity": "warning",
+    "message": "Ürün URL'sinde izleme/oturum parametreleri var.",
+    "fixHint": "Feed link alanında temiz, kanonik ürün URL'si kullanın; UTM/session parametrelerinden kaçının.",
+    "docUrl": "https://support.google.com/merchants/answer/6324416?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-025",
+    "field": "price",
+    "severity": "warning",
+    "message": "Fiyat şüpheli derecede düşük görünüyor.",
+    "fixHint": "Gerçek satış fiyatını doğrulayın; 1 TRY altı değerleri kontrol edin.",
+    "docUrl": "https://support.google.com/merchants/answer/6324371?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-026",
+    "field": "google_product_category",
+    "severity": "info",
+    "message": "Google ürün kategorisi belirtilmemiş.",
+    "fixHint": "google_product_category veya schema category ile doğru GMC kategorisini verin.",
+    "docUrl": "https://support.google.com/merchants/answer/6323771?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-028",
+    "field": "mobile",
+    "severity": "warning",
+    "message": "Viewport meta etiketi eksik — mobil uyumluluk riski.",
+    "fixHint": "width=device-width, initial-scale=1 viewport meta ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/mobile/mobile-sites-mobile-first-indexing"
+  },
+  {
+    "id": "GMC-SPEC-030",
+    "field": "title",
+    "severity": "warning",
+    "message": "Başlık aşırı büyük harf kullanıyor.",
+    "fixHint": "Normal cümle/title case kullanın; tamamını büyük harf yazmayın.",
+    "docUrl": "https://support.google.com/merchants/answer/6324415?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-032",
+    "field": "salePrice",
+    "severity": "info",
+    "message": "İndirimli fiyatta priceValidUntil belirtilmemiş.",
+    "fixHint": "Offer.priceValidUntil ile kampanya bitiş tarihini schema'ya ekleyin.",
+    "docUrl": "https://support.google.com/merchants/answer/6324371?hl=tr"
+  },
+  {
+    "id": "GMC-SPEC-031",
+    "field": "image",
+    "severity": "warning",
+    "message": "Ürün görseli promosyon/watermark/banner izleri taşıyor olabilir.",
+    "fixHint": "Temiz ürün fotoğrafı kullanın; watermark, kampanya bandı veya metin overlay eklemeyin.",
+    "docUrl": "https://support.google.com/merchants/answer/6324370?hl=tr"
+  }
+]

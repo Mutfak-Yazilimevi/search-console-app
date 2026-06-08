@@ -1,0 +1,24 @@
+[
+  {
+    "id": "SCHED-001",
+    "category": "monitoring",
+    "severity": "warning",
+    "message": "Scheduled audit detected a significant SEO score drop compared to the previous run.",
+    "fixHint": "Review new critical and warning issues; check recent deploys or content changes.",
+    "docUrl": "https://developers.google.com/search/docs/monitor-debug/search-console-start"
+  },
+  {
+    "id": "SCHED-002",
+    "category": "monitoring",
+    "severity": "warning",
+    "message": "New critical issue appeared since the last scheduled audit.",
+    "fixHint": "Resolve the newly detected critical rule violations."
+  },
+  {
+    "id": "SCHED-003",
+    "category": "monitoring",
+    "severity": "info",
+    "message": "SEO score improved compared to the previous scheduled run.",
+    "fixHint": "Keep monitoring; document what fixed the regressions."
+  }
+]

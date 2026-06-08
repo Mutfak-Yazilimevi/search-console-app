@@ -1,0 +1,76 @@
+{
+  "common": {
+    "appName": "SearchConsoleApp",
+    "loading": "Loading…",
+    "error": "Error",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "logout": "Logout",
+    "back": "Back",
+    "search": "Search",
+    "empty": "Nothing here yet"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "loginButton": "Sign In",
+    "loginFailed": "Login failed",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Invalid email address",
+    "passwordRequired": "Password is required",
+    "passwordTooShort": "Password must be at least 8 characters"
+  },
+  "navigation": {
+    "home": "Home",
+    "profile": "Profile",
+    "settings": "Settings",
+    "sessions": "Sessions",
+    "customers": "Customers"
+  },
+  "sessions": {
+    "title": "Active Sessions",
+    "current": "This device",
+    "revoke": "Revoke this session",
+    "revokeOthers": "Sign Out Other Devices",
+    "lastActivity": "Last activity",
+    "empty": "No active sessions."
+  },
+  "twoFactor": {
+    "title": "Two-Factor Authentication",
+    "status": "Status",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "setup": "Set up",
+    "disable": "Disable",
+    "code": "Verification code",
+    "useRecovery": "Use recovery code",
+    "scanQr": "Scan QR with your authenticator app",
+    "recoveryCodes": "Recovery Codes",
+    "recoveryWarning": "Save these codes somewhere safe. Each can be used once.",
+    "regenerate": "Regenerate"
+  },
+  "profile": {
+    "title": "My Profile",
+    "name": "Name",
+    "email": "Email",
+    "memberSince": "Member since",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "theme": "Theme",
+    "systemTheme": "Follow system",
+    "language": "Language"
+  },
+  "errors": {
+    "network": "Cannot reach the server. Check your connection.",
+    "unauthorized": "Session expired. Please login again.",
+    "forbidden": "You don't have permission for this action.",
+    "notFound": "Not found.",
+    "generic": "Something went wrong."
+  }
+}

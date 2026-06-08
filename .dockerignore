@@ -1,0 +1,44 @@
+# Build artifacts
+**/bin
+**/obj
+**/.vs
+**/.vscode
+**/out
+**/publish
+
+# Frontend - separate Docker build
+frontend/node_modules
+frontend/dist
+frontend/.angular
+frontend/.nx
+mobile/
+
+# Git + IDE
+.git
+.gitignore
+.gitattributes
+.idea
+*.user
+*.suo
+
+# Docs (Docker image'a dahil olmasın, sadece git'te)
+docs/
+README.md
+*.md
+
+# Tools
+tools/
+
+# Test results
+TestResults/
+**/coverage.cobertura.xml
+
+# Local config
+appsettings.Development.json
+appsettings.Local.json
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "favicon-missing",
+    "category": "technical",
+    "severity": "info",
+    "message": "Favicon (rel=icon veya /favicon.ico) bulunamadı.",
+    "fixHint": "<link rel=\"icon\" href=\"/favicon.ico\"> veya PNG favicon ekleyin (48x48+).",
+    "docUrl": "https://developers.google.com/search/docs/appearance/favicon-in-search"
+  },
+  {
+    "id": "og-description-missing",
+    "category": "discover",
+    "severity": "info",
+    "message": "Open Graph og:description meta etiketi eksik.",
+    "fixHint": "<meta property=\"og:description\" content=\"...\"> ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/google-discover"
+  },
+  {
+    "id": "twitter-card-missing",
+    "category": "social",
+    "severity": "info",
+    "message": "twitter:card meta etiketi eksik.",
+    "fixHint": "<meta name=\"twitter:card\" content=\"summary_large_image\"> ekleyin.",
+    "docUrl": "https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards"
+  }
+]

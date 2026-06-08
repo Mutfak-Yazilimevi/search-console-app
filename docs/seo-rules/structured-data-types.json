@@ -1,0 +1,58 @@
+[
+  {
+    "id": "SD-FAQ-001",
+    "category": "structured-data",
+    "severity": "warning",
+    "message": "FAQPage schema eksik veya geçersiz mainEntity/Question yapısı.",
+    "fixHint": "FAQPage JSON-LD'de mainEntity içinde Question ve acceptedAnswer alanlarını doldurun.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/structured-data/faqpage"
+  },
+  {
+    "id": "SD-PROD-001",
+    "category": "structured-data",
+    "severity": "warning",
+    "message": "Product schema eksik zorunlu alanlar içeriyor (name, offers, image).",
+    "fixHint": "Product JSON-LD'de name, image ve offers nesnesini ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/structured-data/product"
+  },
+  {
+    "id": "SD-ART-001",
+    "category": "structured-data",
+    "severity": "warning",
+    "message": "Article schema eksik zorunlu alanlar içeriyor (headline, author, datePublished).",
+    "fixHint": "Article/NewsArticle JSON-LD'de headline, author ve datePublished ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/structured-data/article"
+  },
+  {
+    "id": "SD-BREAD-001",
+    "category": "structured-data",
+    "severity": "info",
+    "message": "BreadcrumbList schema itemListElement eksik veya boş.",
+    "fixHint": "BreadcrumbList JSON-LD'de en az bir itemListElement tanımlayın.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/structured-data/breadcrumb"
+  },
+  {
+    "id": "SD-LOCAL-001",
+    "category": "structured-data",
+    "severity": "warning",
+    "message": "LocalBusiness schema address veya telephone eksik.",
+    "fixHint": "LocalBusiness JSON-LD'de PostalAddress ve iletişim bilgilerini ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/structured-data/local-business"
+  },
+  {
+    "id": "SD-VID-001",
+    "category": "structured-data",
+    "severity": "warning",
+    "message": "VideoObject schema thumbnailUrl veya uploadDate eksik.",
+    "fixHint": "VideoObject JSON-LD'de thumbnailUrl ve uploadDate alanlarını doldurun.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/structured-data/video"
+  },
+  {
+    "id": "SD-ORG-001",
+    "category": "structured-data",
+    "severity": "info",
+    "message": "Organization schema name veya url eksik.",
+    "fixHint": "Organization JSON-LD'de name ve url alanlarını ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/structured-data/organization"
+  }
+]

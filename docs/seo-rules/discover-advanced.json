@@ -1,0 +1,10 @@
+[
+  {
+    "id": "DISC-001",
+    "category": "discover",
+    "severity": "warning",
+    "message": "og:image gerçek genişliği Discover için yetersiz (<1200px).",
+    "fixHint": "En az 1200px genişliğinde yüksek kaliteli bir görsel kullanın; og:image:width meta ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/google-discover"
+  }
+]

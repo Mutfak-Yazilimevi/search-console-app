@@ -1,0 +1,42 @@
+[
+  {
+    "id": "thin-content",
+    "category": "content",
+    "severity": "warning",
+    "message": "Sayfa içeriği çok kısa (300 kelimeden az).",
+    "fixHint": "Konuyu derinlemesine ele alan, kullanıcıya değer katan içerik ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content"
+  },
+  {
+    "id": "meta-keywords-deprecated",
+    "category": "meta-tags",
+    "severity": "info",
+    "message": "meta keywords etiketi kullanılıyor — Google bunu dikkate almaz.",
+    "fixHint": "Gereksiz meta keywords etiketini kaldırın; title ve description'a odaklanın.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/special-tags"
+  },
+  {
+    "id": "mixed-content",
+    "category": "security",
+    "severity": "warning",
+    "message": "HTTPS sayfada HTTP kaynak (mixed content) tespit edildi.",
+    "fixHint": "Tüm script, görsel ve stil URL'lerini HTTPS yapın.",
+    "docUrl": "https://developers.google.com/search/docs/advanced/security/https"
+  },
+  {
+    "id": "description-too-short",
+    "category": "meta-tags",
+    "severity": "info",
+    "message": "Meta açıklama 50 karakterden kısa.",
+    "fixHint": "120–160 karakter aralığında anlamlı bir özet yazın.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/snippet"
+  },
+  {
+    "id": "description-too-long",
+    "category": "meta-tags",
+    "severity": "info",
+    "message": "Meta açıklama 160 karakterden uzun; snippet'te kesilebilir.",
+    "fixHint": "Meta açıklamayı 120–160 karaktere indirin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/snippet"
+  }
+]

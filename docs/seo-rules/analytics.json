@@ -1,0 +1,10 @@
+[
+  {
+    "id": "ANALYTICS-001",
+    "category": "analytics",
+    "severity": "warning",
+    "message": "Organic traffic or GA4 sessions declined significantly.",
+    "fixHint": "Cross-check index status, technical errors, and content changes with analytics data.",
+    "docUrl": "https://developers.google.com/analytics/devguides/reporting/data/v1"
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "name": "@SearchConsoleApp/openapi-codegen",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Backend OpenAPI'den TypeScript model üretici. Web + mobile için tek kaynak.",
+  "scripts": {
+    "generate": "node generate.mjs",
+    "generate:watch": "node generate.mjs --watch"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^7.4.0"
+  }
+}

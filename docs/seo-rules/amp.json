@@ -1,0 +1,10 @@
+[
+  {
+    "id": "AMP-001",
+    "category": "technical",
+    "severity": "warning",
+    "message": "AMP HTML (amphtml) bağlantısı erişilemiyor veya hata döndürüyor.",
+    "fixHint": "rel=\"amphtml\" hedef URL'sinin geçerli AMP sayfasına işaret ettiğinden emin olun.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/amp"
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "id": "canonical-target-error",
+    "category": "canonical",
+    "severity": "warning",
+    "message": "Canonical URL erişilemiyor veya hata döndürüyor.",
+    "fixHint": "Canonical hedefinin 200 döndüğünden ve tercih edilen URL'ye işaret ettiğinden emin olun.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/canonicalization"
+  },
+  {
+    "id": "redirect-temporary-302",
+    "category": "technical",
+    "severity": "info",
+    "message": "Sayfa geçici yönlendirme (302/307) kullanıyor — kalıcı taşıma için 301 tercih edin.",
+    "fixHint": "Kalıcı URL değişikliklerinde HTTP 301 Moved Permanently kullanın.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/301-redirects"
+  }
+]

@@ -1,0 +1,66 @@
+[
+  {
+    "id": "canonical-missing",
+    "category": "canonical",
+    "severity": "warning",
+    "message": "Sayfada canonical bağlantısı eksik.",
+    "fixHint": "Tercih edilen URL'yi gösteren <link rel=\"canonical\" href=\"...\"> ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/canonicalization"
+  },
+  {
+    "id": "h1-missing",
+    "category": "content",
+    "severity": "warning",
+    "message": "Sayfada H1 başlığı eksik.",
+    "fixHint": "Sayfa konusuyla uyumlu tek bir açıklayıcı H1 ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/title-link"
+  },
+  {
+    "id": "h1-multiple",
+    "category": "content",
+    "severity": "info",
+    "message": "Sayfada birden fazla H1 başlığı var.",
+    "fixHint": "Sayfa başına bir ana H1 kullanın; alt bölümler için H2–H6 tercih edin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/title-link"
+  },
+  {
+    "id": "noindex-detected",
+    "category": "index-status",
+    "severity": "warning",
+    "message": "Sayfada noindex yönergesi var — Google Arama'da görünmez.",
+    "fixHint": "Bu sayfanın indekslenmesini istiyorsanız noindex'i kaldırın.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag"
+  },
+  {
+    "id": "http-status-error",
+    "category": "technical",
+    "severity": "critical",
+    "message": "Sayfa 200 dışında bir HTTP durum kodu döndürdü.",
+    "fixHint": "Sunucu hatalarını giderin veya bozuk URL'leri yönlendirin.",
+    "docUrl": "https://developers.google.com/search/docs/essentials/technical"
+  },
+  {
+    "id": "img-alt-missing",
+    "category": "image",
+    "severity": "warning",
+    "message": "Bir veya daha fazla görselde alt metni eksik.",
+    "fixHint": "Anlamlı tüm görsellere açıklayıcı alt nitelikleri ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/appearance/google-images"
+  },
+  {
+    "id": "robots-txt-missing",
+    "category": "robots",
+    "severity": "info",
+    "message": "robots.txt dosyası bulunamadı.",
+    "fixHint": "Tarayıcıları yönlendirmek ve site haritası konumunu belirtmek için /robots.txt ekleyin.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/robots/intro"
+  },
+  {
+    "id": "sitemap-missing",
+    "category": "sitemap",
+    "severity": "info",
+    "message": "Varsayılan konumda sitemap.xml bulunamadı.",
+    "fixHint": "Önemli URL'lerinizi içeren bir sitemap.xml oluşturup gönderin.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview"
+  }
+]

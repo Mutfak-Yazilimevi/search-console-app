@@ -1,0 +1,42 @@
+[
+  {
+    "id": "SC-002",
+    "category": "search-console",
+    "severity": "warning",
+    "message": "Search Console URL Denetimi: indeks kapsama oranı düşük.",
+    "fixHint": "Düşük kapsamalı URL'lerde noindex, robots.txt, canonical ve içerik kalitesini kontrol edin.",
+    "docUrl": "https://developers.google.com/search/docs/monitor-debug/search-console-start"
+  },
+  {
+    "id": "SC-003",
+    "category": "search-console",
+    "severity": "critical",
+    "message": "Search Console manuel işlem veya ciddi indeks engeli sinyali tespit edildi.",
+    "fixHint": "Search Console → Manuel işlemler ve Güvenlik sorunları bölümlerini kontrol edin.",
+    "docUrl": "https://developers.google.com/search/docs/monitor-debug/security"
+  },
+  {
+    "id": "SC-004",
+    "category": "search-console",
+    "severity": "warning",
+    "message": "Search Console'da gönderilen site haritasında hata var.",
+    "fixHint": "Site Haritaları raporundaki hatalı URL'leri düzeltin ve sitemap'i yeniden gönderin.",
+    "docUrl": "https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap"
+  },
+  {
+    "id": "INDEX-003",
+    "category": "index-status",
+    "severity": "info",
+    "message": "Sayfa Google indeksinde görünmüyor (site: sorgusu).",
+    "fixHint": "URL Denetimi ile indeks durumunu kontrol edin; noindex veya kalite sorunlarını giderin.",
+    "docUrl": "https://developers.google.com/search/docs/monitor-debug/search-console-start"
+  },
+  {
+    "id": "RANK-004",
+    "category": "ranking",
+    "severity": "info",
+    "message": "Anahtar kelime performansı önceki denetime göre düştü.",
+    "fixHint": "İlgili sorgu için içerik ve snippet'i güçlendirin; rakip SERP değişimlerini inceleyin.",
+    "docUrl": "https://developers.google.com/search/docs/monitor-debug/search-console-start"
+  }
+]

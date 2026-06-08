@@ -1,0 +1,21 @@
+{
+  "OAuth": {
+    "google": {
+      "ClientId": "BURAYA-GOOGLE-CLIENT-ID.apps.googleusercontent.com",
+      "ClientSecret": "BURAYA-CLIENT-SECRET",
+      "RedirectUri": "http://localhost:4200/auth/external/google/callback"
+    }
+  },
+  "GoogleSearchConsole": {
+    "ClientId": "",
+    "ClientSecret": "",
+    "RedirectUri": "http://localhost:4200/auth/search-console/callback"
+  },
+  "Google": {
+    "PageSpeedApiKey": "",
+    "SafeBrowsingApiKey": ""
+  },
+  "Security": {
+    "TokenEncryptionKey": "DEV_ONLY_token_encryption_key_32_chars_min"
+  }
+}
