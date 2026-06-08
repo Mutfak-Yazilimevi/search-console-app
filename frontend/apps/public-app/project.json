@@ -21,7 +21,26 @@
         "styles": ["apps/public-app/src/styles.scss"]
       },
       "configurations": {
-        "production": { "optimization": true, "outputHashing": "all" },
+        "production": {
+          "optimization": true,
+          "outputHashing": "all",
+          "fileReplacements": [
+            {
+              "replace": "apps/public-app/src/environments/environment.ts",
+              "with": "apps/public-app/src/environments/environment.production.ts"
+            }
+          ]
+        },
+        "github-pages": {
+          "optimization": true,
+          "outputHashing": "all",
+          "fileReplacements": [
+            {
+              "replace": "apps/public-app/src/environments/environment.ts",
+              "with": "apps/public-app/src/environments/environment.github-pages.ts"
+            }
+          ]
+        },
         "development": { "optimization": false, "sourceMap": true }
       },
       "defaultConfiguration": "production"

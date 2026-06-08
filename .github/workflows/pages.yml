@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      api_url:
+        description: 'Public API base URL (örn. https://api.example.com/api/v1)'
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -41,11 +46,16 @@ jobs:
             echo "path=/${{ github.event.repository.name }}/" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Configure API URL
+        env:
+          PUBLIC_API_URL: ${{ inputs.api_url || vars.PUBLIC_API_URL }}
+        run: node tools/write-public-app-environment.mjs github-pages
+
       - name: Build public app
         working-directory: frontend
         run: |
           npm run generate:rules
-          npx nx build public-app --configuration=production --base-href="${{ steps.base.outputs.path }}"
+          npx nx build public-app --configuration=github-pages --base-href="${{ steps.base.outputs.path }}"
 
       - name: Prepare GitHub Pages artifact
         run: |
