@@ -13,6 +13,12 @@ import {
   fetchPageWithRedirects,
   hasTemporaryRedirect,
 } from "./fetcher/redirect-analyzer.js";
+import {
+  normalizeCrawlUrl,
+  scheduleCrawlUrl,
+  shouldSkipQueuedEntry,
+  urlPathDepth,
+} from "./fetcher/crawl-depth.js";
 import { assertSafeFetchUrl } from "./fetcher/ssrf-guard.js";
 import {
   analyzePage,
@@ -39,6 +45,7 @@ import {
   evidenceDuplicateDescription,
   evidenceDuplicateTitle,
   evidenceGooglebotBlocked,
+  evidenceHttpStatus,
   evidenceOrphanPage,
   evidenceRedirectChain,
   evidenceRedirectTemporary,
@@ -66,6 +73,11 @@ import {
   type ProductComplianceJobData,
   type ProductRescanJobData,
 } from "./product-compliance/crawl.js";
+import {
+  runPriceBenchmarkCrawl,
+  failPriceBenchmarkCrawl,
+  type PriceBenchmarkJobData,
+} from "./price-benchmark/crawl.js";
 
 interface CrawlJobData {
   auditRunEntityId: string;
@@ -78,6 +90,12 @@ interface PageRecord {
   url: string;
   title: string | null;
   description: string | null;
+  /** Geçici yönlendirme (302/303/307) — dup-title/dup-description adaylarından hariç */
+  hasTemporaryRedirect: boolean;
+}
+
+function isDuplicateContentCandidate(page: PageRecord): boolean {
+  return !page.hasTemporaryRedirect;
 }
 
 const redisUrl = process.env.REDIS_URL ?? "redis://localhost:6379";
@@ -87,6 +105,8 @@ const auditWebhookSecret = process.env.AUDIT_WEBHOOK_SECRET ?? "";
 const httpPort = Number(process.env.PORT ?? "3100");
 const queueName = "audit-crawl";
 const productComplianceQueueName = "product-compliance-crawl";
+const priceBenchmarkQueueName = "price-benchmark-crawl";
+const serpApiKey = process.env.SERP_API_KEY ?? "";
 const fetchDelayMs = Number(process.env.FETCH_DELAY_MS ?? "500");
 const concurrency = Number(process.env.CRAWL_CONCURRENCY ?? "3");
 
@@ -96,9 +116,11 @@ const productComplianceQueue = new Queue<ProductComplianceJobData | ProductResca
   productComplianceQueueName,
   { connection },
 );
+const priceBenchmarkQueue = new Queue<PriceBenchmarkJobData>(priceBenchmarkQueueName, { connection });
 const cancelRedis = new Redis(redisUrl, { maxRetriesPerRequest: null });
 const cancelKeyPrefix = "audit:cancel:";
 const productComplianceCancelKeyPrefix = "product-compliance:cancel:";
+const priceBenchmarkCancelKeyPrefix = "price-benchmark:cancel:";
 const rules = loadAllRules();
 
 async function markCancelled(auditRunEntityId: string): Promise<void> {
@@ -115,6 +137,28 @@ async function markProductComplianceCancelled(entityId: string): Promise<void> {
 
 async function isProductComplianceCancelled(entityId: string): Promise<boolean> {
   return (await cancelRedis.get(`${productComplianceCancelKeyPrefix}${entityId}`)) === "1";
+}
+
+async function markPriceBenchmarkCancelled(entityId: string): Promise<void> {
+  await cancelRedis.set(`${priceBenchmarkCancelKeyPrefix}${entityId}`, "1", "EX", 86_400);
+}
+
+async function isPriceBenchmarkCancelled(entityId: string): Promise<boolean> {
+  return (await cancelRedis.get(`${priceBenchmarkCancelKeyPrefix}${entityId}`)) === "1";
+}
+
+async function removeQueuedPriceBenchmarkJobs(entityId: string): Promise<number> {
+  let removed = 0;
+  for (const state of ["waiting", "delayed", "paused"] as const) {
+    const jobs = await priceBenchmarkQueue.getJobs([state]);
+    for (const job of jobs) {
+      if (job.data.priceBenchmarkRunEntityId === entityId) {
+        await job.remove();
+        removed++;
+      }
+    }
+  }
+  return removed;
 }
 
 async function removeQueuedJobs(auditRunEntityId: string): Promise<number> {
@@ -173,7 +217,7 @@ function analyzeSiteLevel(
 
   const titleGroups = new Map<string, string[]>();
   for (const p of pages) {
-    if (!p.title) continue;
+    if (!p.title || !isDuplicateContentCandidate(p)) continue;
     const key = p.title.toLowerCase();
     const list = titleGroups.get(key) ?? [];
     list.push(p.url);
@@ -188,7 +232,7 @@ function analyzeSiteLevel(
 
   const descGroups = new Map<string, string[]>();
   for (const p of pages) {
-    if (!p.description) continue;
+    if (!p.description || !isDuplicateContentCandidate(p)) continue;
     const key = p.description.toLowerCase();
     const list = descGroups.get(key) ?? [];
     list.push(p.url);
@@ -360,12 +404,20 @@ async function crawlSite(job: CrawlJobData): Promise<void> {
     });
   }
 
-  const urlQueue: { url: string; depth: number }[] = seedUrls.map((u) => ({ url: u, depth: 0 }));
-  if (!urlQueue.some((q) => q.url.replace(/\/$/, "") === startUrl.replace(/\/$/, ""))) {
-    urlQueue.unshift({ url: startUrl, depth: 0 });
-  }
+  const urlQueue: { url: string; depth: number }[] = [];
+  const queuedDepth = new Map<string, number>();
+  const crawled = new Set<string>();
+  const startNorm = normalizeCrawlUrl(startUrl);
 
-  const visited = new Set<string>();
+  scheduleCrawlUrl(urlQueue, queuedDepth, crawled, startNorm, 0);
+  const sitemapSeeds = seedUrls
+    .map((u) => normalizeCrawlUrl(u))
+    .filter((u) => u !== startNorm)
+    .sort((a, b) => urlPathDepth(a) - urlPathDepth(b));
+
+  for (const seed of sitemapSeeds) {
+    scheduleCrawlUrl(urlQueue, queuedDepth, crawled, seed, urlPathDepth(seed));
+  }
   const linkedTargets = new Set<string>();
   const linkTargetCounts = new Map<string, number>();
   let totalInternalLinks = 0;
@@ -382,11 +434,12 @@ async function crawlSite(job: CrawlJobData): Promise<void> {
     }
 
     const { url, depth } = urlQueue.shift()!;
-    const normalized = url.replace(/\/$/, "") || url;
-    if (visited.has(normalized)) continue;
+    const normalized = normalizeCrawlUrl(url);
+    if (shouldSkipQueuedEntry(normalized, depth, queuedDepth, crawled)) continue;
     if (isDisallowed(normalized, robots)) continue;
 
-    visited.add(normalized);
+    const crawlDepth = queuedDepth.get(normalized) ?? depth;
+    crawled.add(normalized);
     pagesCrawled++;
 
     let issues: CrawlIssue[] = [];
@@ -406,7 +459,7 @@ async function crawlSite(job: CrawlJobData): Promise<void> {
 
       issues = analyzePage(normalized, statusCode, html, rules, {
         xRobotsTag: result.headers["x-robots-tag"] ?? null,
-        isShallowPage: depth <= 1,
+        isShallowPage: crawlDepth <= 1,
       });
 
       if (result.redirectHops >= 3) {
@@ -432,7 +485,7 @@ async function crawlSite(job: CrawlJobData): Promise<void> {
         }
       }
 
-      if (depth === 0) {
+      if (crawlDepth === 0) {
         const gb = await testGooglebotAccess(normalized, statusCode);
         if (gb.blocked) {
           const rule = rules.get("googlebot-blocked");
@@ -465,25 +518,44 @@ async function crawlSite(job: CrawlJobData): Promise<void> {
         }
       }
 
-      pageRecords.push({ url: normalized, title, description: metaDescription });
+      pageRecords.push({
+        url: normalized,
+        title,
+        description: metaDescription,
+        hasTemporaryRedirect: hasTemporaryRedirect(result.redirectStatuses),
+      });
 
-      if (depth < maxDepth && html) {
+      if (crawlDepth < maxDepth && html) {
         const links = extractLinks(html, origin, normalized);
         for (const link of links) {
-          const linkNorm = link.replace(/\/$/, "") || link;
+          const linkNorm = normalizeCrawlUrl(link);
           linkedTargets.add(linkNorm);
           totalInternalLinks++;
           linkTargetCounts.set(linkNorm, (linkTargetCounts.get(linkNorm) ?? 0) + 1);
-          if (!visited.has(linkNorm)) urlQueue.push({ url: linkNorm, depth: depth + 1 });
+          scheduleCrawlUrl(urlQueue, queuedDepth, crawled, linkNorm, crawlDepth + 1);
         }
       }
     } catch (err) {
+      const message = err instanceof Error ? err.message : "Sayfa getirilemedi";
+      console.warn(`Page fetch failed for ${normalized}:`, err);
+      statusCode = 0;
+      const rule = rules.get("http-status-error");
+      if (rule) issues.push(makeIssue(rule, evidenceHttpStatus(0)));
       await postWebhook({
         auditRunEntityId,
-        event: "failed",
-        errorMessage: err instanceof Error ? err.message : "Sayfa getirilemedi",
+        event: "page",
+        url: normalized,
+        statusCode,
+        title,
+        metaDescription,
+        crawlDepth,
+        responseTimeMs,
+        issues,
+        progressPhase: "crawling",
+        progressMessage: `${pagesCrawled} sayfa tarandı (${message})`,
       });
-      return;
+      if (fetchDelayMs > 0) await new Promise((r) => setTimeout(r, fetchDelayMs));
+      continue;
     }
 
     await postWebhook({
@@ -493,7 +565,7 @@ async function crawlSite(job: CrawlJobData): Promise<void> {
       statusCode,
       title,
       metaDescription,
-      crawlDepth: depth,
+      crawlDepth,
       responseTimeMs,
       issues,
       progressPhase: "crawling",
@@ -508,7 +580,7 @@ async function crawlSite(job: CrawlJobData): Promise<void> {
     return;
   }
 
-  const siteIssues = analyzeSiteLevel(pageRecords, linkedTargets, origin, sitemapUrlSet, visited, hreflangEntries);
+  const siteIssues = analyzeSiteLevel(pageRecords, linkedTargets, origin, sitemapUrlSet, crawled, hreflangEntries);
   if (siteIssues.length > 0) {
     await postWebhook({
       auditRunEntityId,
@@ -616,6 +688,34 @@ productComplianceWorker.on("failed", async (job, err) => {
   }
 });
 
+const priceBenchmarkWorker = new Worker<PriceBenchmarkJobData>(
+  priceBenchmarkQueueName,
+  async (job) => {
+    console.log(`Processing price benchmark job ${job.id} for ${job.data.url}`);
+    await runPriceBenchmarkCrawl(
+      job.data,
+      auditWebhookSecret,
+      fetchDelayMs,
+      serpApiKey,
+      () => isPriceBenchmarkCancelled(job.data.priceBenchmarkRunEntityId),
+    );
+  },
+  { connection, concurrency: 1 },
+);
+
+priceBenchmarkWorker.on("failed", async (job, err) => {
+  console.error(`Price benchmark job ${job?.id} failed:`, err);
+  if (job?.data.priceBenchmarkRunEntityId) {
+    try {
+      await failPriceBenchmarkCrawl(
+        job.data.priceBenchmarkRunEntityId,
+        err.message,
+        auditWebhookSecret,
+      );
+    } catch { /* ignore */ }
+  }
+});
+
 createServer(async (req, res) => {
   if (req.method === "POST" && req.url === "/cancel") {
     try {
@@ -624,11 +724,12 @@ createServer(async (req, res) => {
       const body = JSON.parse(Buffer.concat(chunks).toString("utf8")) as {
         auditRunEntityId?: string;
         productComplianceRunEntityId?: string;
+        priceBenchmarkRunEntityId?: string;
       };
 
-      if (!body.auditRunEntityId && !body.productComplianceRunEntityId) {
+      if (!body.auditRunEntityId && !body.productComplianceRunEntityId && !body.priceBenchmarkRunEntityId) {
         res.writeHead(400, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ error: "auditRunEntityId or productComplianceRunEntityId is required" }));
+        res.end(JSON.stringify({ error: "auditRunEntityId, productComplianceRunEntityId or priceBenchmarkRunEntityId is required" }));
         return;
       }
 
@@ -640,6 +741,10 @@ createServer(async (req, res) => {
       if (body.productComplianceRunEntityId) {
         await markProductComplianceCancelled(body.productComplianceRunEntityId);
         removed += await removeQueuedProductComplianceJobs(body.productComplianceRunEntityId);
+      }
+      if (body.priceBenchmarkRunEntityId) {
+        await markPriceBenchmarkCancelled(body.priceBenchmarkRunEntityId);
+        removed += await removeQueuedPriceBenchmarkJobs(body.priceBenchmarkRunEntityId);
       }
 
       res.writeHead(200, { "Content-Type": "application/json" });
@@ -727,6 +832,38 @@ createServer(async (req, res) => {
 
       res.writeHead(202, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ ok: true, jobId: bullJob.id }));
+    } catch (err) {
+      res.writeHead(500, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: err instanceof Error ? err.message : "enqueue failed" }));
+    }
+    return;
+  }
+
+  if (req.method === "POST" && req.url === "/enqueue-price-benchmark") {
+    try {
+      const chunks: Buffer[] = [];
+      for await (const chunk of req) chunks.push(chunk as Buffer);
+      const body = JSON.parse(Buffer.concat(chunks).toString("utf8")) as PriceBenchmarkJobData;
+
+      if (!body.priceBenchmarkRunEntityId || !body.url) {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "priceBenchmarkRunEntityId and url are required" }));
+        return;
+      }
+
+      body.maxProducts = body.maxProducts ?? 100;
+
+      const bullJob = await priceBenchmarkQueue.add("price-benchmark", body, {
+        removeOnComplete: 100,
+        removeOnFail: 50,
+      });
+
+      res.writeHead(202, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({
+        ok: true,
+        jobId: bullJob.id,
+        shoppingBrowserEnabled: process.env.PLAYWRIGHT_ENABLED !== "false",
+      }));
     } catch (err) {
       res.writeHead(500, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ error: err instanceof Error ? err.message : "enqueue failed" }));

@@ -22,6 +22,16 @@
       },
       "configurations": {
         "production": { "optimization": true, "outputHashing": "all" },
+        "docker": {
+          "optimization": true,
+          "outputHashing": "all",
+          "fileReplacements": [
+            {
+              "replace": "apps/web-app/src/environments/environment.ts",
+              "with": "apps/web-app/src/environments/environment.docker.ts"
+            }
+          ]
+        },
         "development": { "optimization": false, "sourceMap": true }
       },
       "defaultConfiguration": "production"

@@ -19,7 +19,7 @@ export interface PageRow extends ScannedPageDto {
               <th>URL</th>
               <th>HTTP</th>
               <th>Title</th>
-              <th>Derinlik</th>
+              <th title="Ana sayfadan link sıçraması; sitemap sayfalarında URL yol derinliği">Derinlik</th>
               <th>Sorun</th>
             </tr>
           </thead>

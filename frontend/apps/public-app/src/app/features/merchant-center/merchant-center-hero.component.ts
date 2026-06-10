@@ -26,6 +26,8 @@ import {
     <section class="gmc-hero surface">
       <nav class="gmc-nav">
         <a routerLink="/">← SEO Denetimi</a>
+        <span class="nav-sep"> · </span>
+        <a routerLink="/price-benchmark">Ürün Fiyat Analizi</a>
       </nav>
       <h1>Merchant Center Ürün Uyumluluğu</h1>
       <p class="subtitle">Ürünlerinizin Google Merchant Center kurallarına uygunluğunu analiz edin.</p>
@@ -97,7 +99,9 @@ import {
   `,
   styles: [`
     .gmc-hero { padding: 1.5rem; margin-bottom: 1rem; }
-    .gmc-nav a { font-size: 0.85rem; color: #4285f4; }
+    .gmc-nav a { font-size: 0.85rem; color: #4285f4; text-decoration: none; }
+    .gmc-nav a:hover { text-decoration: underline; }
+    .nav-sep { color: #999; margin: 0 0.35rem; }
     .subtitle { color: #64748b; margin-bottom: 1rem; }
     .gmc-form { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
     .gmc-form input, .gmc-form select { flex: 1; min-width: 200px; padding: 0.5rem; }

@@ -11,6 +11,11 @@ export const routes: Routes = [
       import('./features/merchant-center/merchant-center.component').then(m => m.MerchantCenterComponent),
   },
   {
+    path: 'price-benchmark',
+    loadComponent: () =>
+      import('./features/price-benchmark/price-benchmark.component').then(m => m.PriceBenchmarkComponent),
+  },
+  {
     path: 'auth/external/google/callback',
     loadComponent: () =>
       import('./features/auth/google-auth-callback.component').then(m => m.GoogleAuthCallbackComponent),

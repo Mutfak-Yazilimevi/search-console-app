@@ -1,15 +1,20 @@
-# Dev environment için tek komutla tüm stack:
-#   docker compose up -d
+# Yerel geliştirme — tek komutla tüm stack:
+#   cp .env.example .env
+#   docker compose up -d --build
 #
-# Servisler:
-#   - api     → SearchConsoleApp.Web (.NET 9 backend)            :5000
-#   - sql     → SQL Server 2022                       :1433
-#   - redis   → Redis 7                               :6379
-#   - seq     → Serilog log explorer (UI)             :5341/:8081
-#   - mailpit → SMTP test sunucusu + web UI           :1025/:8025
+# Uygulamalar:
+#   public-app  → http://localhost:4200
+#   web-app     → http://localhost:4201
+#   admin-app   → http://localhost:4202
+#   api         → http://localhost:5000
 #
-# Production'da bu dosya kullanılmaz — `docker-compose.prod.yml` veya
-# k8s manifest'lerine geçiş yapılır.
+# Altyapı:
+#   sql         → localhost:1433
+#   redis       → localhost:6379
+#   crawl-worker→ localhost:3100
+#   seq UI      → http://localhost:8081
+#   mailpit UI  → http://localhost:8025
+#   jaeger UI   → http://localhost:16686
 
 services:
   sql:
@@ -29,6 +34,7 @@ services:
       timeout: 5s
       retries: 10
       start_period: 30s
+    restart: unless-stopped
 
   redis:
     image: redis:7-alpine
@@ -43,67 +49,38 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
+    restart: unless-stopped
 
-  # Serilog log explorer — JSON log'ları görsel sorgulanabilir
-  # Web UI: http://localhost:8081
   seq:
     image: datalust/seq:latest
     container_name: SearchConsoleApp-seq
     environment:
       ACCEPT_EULA: "Y"
     ports:
-      - "5341:5341"   # ingestion
-      - "8081:80"     # web UI
+      - "5341:5341"
+      - "8081:80"
     volumes:
       - seq-data:/data
+    restart: unless-stopped
 
-  # SMTP test sunucusu — gerçek email göndermeden test
-  # Web UI: http://localhost:8025
   mailpit:
     image: axllent/mailpit:latest
     container_name: SearchConsoleApp-mailpit
     ports:
-      - "1025:1025"   # SMTP
-      - "8025:8025"   # web UI
+      - "1025:1025"
+      - "8025:8025"
+    restart: unless-stopped
 
-  # Jaeger distributed tracing
-  # Web UI: http://localhost:16686
-  # OTLP: gRPC 4317, HTTP 4318
   jaeger:
     image: jaegertracing/all-in-one:latest
     container_name: SearchConsoleApp-jaeger
     environment:
       COLLECTOR_OTLP_ENABLED: "true"
     ports:
-      - "16686:16686"  # web UI
-      - "4317:4317"    # OTLP gRPC
-      - "4318:4318"    # OTLP HTTP
-
-  crawl-worker:
-    build:
-      context: ./crawl-worker
-      dockerfile: Dockerfile
-    container_name: SearchConsoleApp-crawl-worker
-    depends_on:
-      redis:
-        condition: service_healthy
-      api:
-        condition: service_started
-    environment:
-      REDIS_URL: "redis://redis:6379"
-      API_WEBHOOK_URL: "http://api:8080/api/v1/public/audit/webhook"
-      PRODUCT_COMPLIANCE_WEBHOOK_URL: "http://api:8080/api/v1/public/merchant-center/compliance/webhook"
-      AUDIT_WEBHOOK_SECRET: ${AUDIT_WEBHOOK_SECRET:-}
-      RULES_DIR: "/docs/seo-rules"
-      PORT: "3100"
-      FETCH_DELAY_MS: "300"
-      CRAWL_CONCURRENCY: "3"
-      PLAYWRIGHT_ENABLED: "true"
-      PLAYWRIGHT_MAX_PAGES: "10"
-    ports:
-      - "3100:3100"
-    volumes:
-      - ./docs/seo-rules:/docs/seo-rules:ro
+      - "16686:16686"
+      - "4317:4317"
+      - "4318:4318"
+    restart: unless-stopped
 
   api:
     build:
@@ -128,49 +105,152 @@ services:
       Cache__Provider: "redis"
       Cache__Redis__ConnectionString: "redis:6379"
 
-      # Mailpit'e gönder — gerçek email gitmez
       Email__Mode: "smtp"
       Email__Smtp__Host: "mailpit"
       Email__Smtp__Port: "1025"
       Email__Smtp__EnableSsl: "false"
       Email__Smtp__FromEmail: "noreply@SearchConsoleApp.local"
 
-      # Serilog → Seq'e stream
       Serilog__WriteTo__0__Name: "Seq"
       Serilog__WriteTo__0__Args__serverUrl: "http://seq:5341"
 
-      # OpenTelemetry → Jaeger
       Observability__OtlpEndpoint: "http://jaeger:4317"
-      Observability__SampleRate: "1.0"   # dev'de tüm trace'ler
+      Observability__SampleRate: "1.0"
 
       App__PublicUrl: "http://localhost:4200"
       Jwt__Key: "DEV_ONLY_jwt_key_change_in_production_at_least_32_chars_long"
+
+      Cors__AllowedOrigins__0: "http://localhost:4200"
+      Cors__AllowedOrigins__1: "http://localhost:4201"
+      Cors__AllowedOrigins__2: "http://localhost:4202"
+
+      Realtime__Backplane__Redis: "redis:6379"
+
       Audit__CrawlWorkerUrl: "http://crawl-worker:3100"
       Audit__WebhookSecret: ${AUDIT_WEBHOOK_SECRET:-}
       Audit__MaxPages: "50"
       Audit__MaxDepth: "5"
+
       ProductCompliance__MaxProducts: "100"
       ProductCompliance__MaxAiCallsPerRun: "20"
-      Google__MerchantCenter__ClientId: ${GOOGLE_GMC_CLIENT_ID:-}
-      Google__MerchantCenter__ClientSecret: ${GOOGLE_GMC_CLIENT_SECRET:-}
-      Google__MerchantCenter__RedirectUri: ${GOOGLE_GMC_REDIRECT_URI:-http://localhost:4200/auth/merchant-center/callback}
-      Blob__Local__RootPath: "/app/blobs"
 
-      # Google OAuth — .env dosyasından okunur (bkz. .env.example)
+      Blob__Local__RootPath: "/app/blobs"
+      Blob__Local__PublicBaseUrl: "http://localhost:5000/blobs"
+
       OAuth__google__ClientId: ${OAUTH_GOOGLE_CLIENT_ID:-}
       OAuth__google__ClientSecret: ${OAUTH_GOOGLE_CLIENT_SECRET:-}
       OAuth__google__RedirectUri: ${OAUTH_GOOGLE_REDIRECT_URI:-http://localhost:4200/auth/external/google/callback}
+
       GoogleSearchConsole__ClientId: ${GOOGLE_SC_CLIENT_ID:-}
       GoogleSearchConsole__ClientSecret: ${GOOGLE_SC_CLIENT_SECRET:-}
       GoogleSearchConsole__RedirectUri: ${GOOGLE_SC_REDIRECT_URI:-http://localhost:4200/auth/search-console/callback}
+
+      Google__MerchantCenter__ClientId: ${GOOGLE_GMC_CLIENT_ID:-}
+      Google__MerchantCenter__ClientSecret: ${GOOGLE_GMC_CLIENT_SECRET:-}
+      Google__MerchantCenter__RedirectUri: ${GOOGLE_GMC_REDIRECT_URI:-http://localhost:4200/auth/merchant-center/callback}
+
+      Google__PageSpeedApiKey: ${GOOGLE_PAGESPEED_API_KEY:-}
+      Google__SafeBrowsingApiKey: ${GOOGLE_SAFEBROWSING_API_KEY:-}
+      Google__CustomSearchApiKey: ${GOOGLE_CUSTOM_SEARCH_API_KEY:-}
+      Google__CustomSearchEngineId: ${GOOGLE_CUSTOM_SEARCH_ENGINE_ID:-}
       Google__GeminiApiKey: ${GOOGLE_GEMINI_API_KEY:-}
       Google__GeminiModel: ${GOOGLE_GEMINI_MODEL:-gemini-2.5-flash}
+
+      Backlinks__AhrefsApiToken: ${AHREFS_API_TOKEN:-}
+      Backlinks__MozAccessId: ${MOZ_ACCESS_ID:-}
+      Backlinks__MozSecretKey: ${MOZ_SECRET_KEY:-}
     ports:
       - "5000:8080"
     volumes:
       - ./src/SearchConsoleApp.Web/App_Data:/app/App_Data
+      - api-blobs:/app/blobs
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 60s
+    restart: unless-stopped
+
+  crawl-worker:
+    build:
+      context: ./crawl-worker
+      dockerfile: Dockerfile
+    container_name: SearchConsoleApp-crawl-worker
+    depends_on:
+      redis:
+        condition: service_healthy
+      api:
+        condition: service_healthy
+    environment:
+      REDIS_URL: "redis://redis:6379"
+      API_WEBHOOK_URL: "http://api:8080/api/v1/public/audit/webhook"
+      PRODUCT_COMPLIANCE_WEBHOOK_URL: "http://api:8080/api/v1/public/merchant-center/compliance/webhook"
+      PRICE_BENCHMARK_WEBHOOK_URL: "http://api:8080/api/v1/public/price-benchmark/webhook"
+      SHOPPING_SEARCH_DELAY_MS: ${SHOPPING_SEARCH_DELAY_MS:-2000}
+      SHOPPING_BROWSER_ENABLED: ${SHOPPING_BROWSER_ENABLED:-true}
+      SHOPPING_MAX_OFFERS: ${SHOPPING_MAX_OFFERS:-20}
+      SHOPPING_USE_SERPAPI: ${SHOPPING_USE_SERPAPI:-false}
+      SERP_API_KEY: ${SERP_API_KEY:-}
+      AUDIT_WEBHOOK_SECRET: ${AUDIT_WEBHOOK_SECRET:-}
+      RULES_DIR: "/docs/seo-rules"
+      PORT: "3100"
+      FETCH_DELAY_MS: "300"
+      FETCH_TIMEOUT_MS: "30000"
+      FETCH_MAX_RETRIES: "2"
+      CRAWL_CONCURRENCY: "3"
+      PLAYWRIGHT_ENABLED: "true"
+      PLAYWRIGHT_MAX_PAGES: "10"
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./docs/seo-rules:/docs/seo-rules:ro
+    restart: unless-stopped
+
+  public-app:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        APP: public-app
+    container_name: SearchConsoleApp-public
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "4200:80"
+    restart: unless-stopped
+
+  web-app:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        APP: web-app
+    container_name: SearchConsoleApp-web
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "4201:80"
+    restart: unless-stopped
+
+  admin-app:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        APP: admin-app
+    container_name: SearchConsoleApp-admin
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "4202:80"
+    restart: unless-stopped
 
 volumes:
   sql-data:
   redis-data:
   seq-data:
+  api-blobs:

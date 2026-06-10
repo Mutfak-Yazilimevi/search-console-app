@@ -440,34 +440,41 @@ public class AuditController : PublicApiController
         Response.Headers.CacheControl = "no-cache";
         Response.Headers.Connection = "keep-alive";
 
-        while (!cancellationToken.IsCancellationRequested)
+        try
         {
-            var detail = await _auditService.GetAuditAsync(entityId, cancellationToken);
-            if (detail == null)
+            while (!cancellationToken.IsCancellationRequested)
             {
-                await Response.WriteAsync("event: error\ndata: not found\n\n", cancellationToken);
-                break;
+                var detail = await _auditService.GetAuditAsync(entityId, cancellationToken);
+                if (detail == null)
+                {
+                    await Response.WriteAsync("event: error\ndata: not found\n\n", cancellationToken);
+                    break;
+                }
+
+                var run = detail.Run;
+                var payload = System.Text.Json.JsonSerializer.Serialize(new
+                {
+                    status = run.Status.ToString(),
+                    phase = run.ProgressPhase,
+                    message = run.ProgressMessage,
+                    pagesCrawled = run.PagesCrawled,
+                    issuesFound = run.IssuesFound,
+                    score = run.Score,
+                });
+                await Response.WriteAsync($"data: {payload}\n\n", cancellationToken);
+                await Response.Body.FlushAsync(cancellationToken);
+
+                if (run.Status is Core.Domain.Audit.AuditRunStatus.Completed
+                    or Core.Domain.Audit.AuditRunStatus.Failed
+                    or Core.Domain.Audit.AuditRunStatus.Cancelled)
+                    break;
+
+                await Task.Delay(1500, cancellationToken);
             }
-
-            var run = detail.Run;
-            var payload = System.Text.Json.JsonSerializer.Serialize(new
-            {
-                status = run.Status.ToString(),
-                phase = run.ProgressPhase,
-                message = run.ProgressMessage,
-                pagesCrawled = run.PagesCrawled,
-                issuesFound = run.IssuesFound,
-                score = run.Score,
-            });
-            await Response.WriteAsync($"data: {payload}\n\n", cancellationToken);
-            await Response.Body.FlushAsync(cancellationToken);
-
-            if (run.Status is Core.Domain.Audit.AuditRunStatus.Completed
-                or Core.Domain.Audit.AuditRunStatus.Failed
-                or Core.Domain.Audit.AuditRunStatus.Cancelled)
-                break;
-
-            await Task.Delay(1500, cancellationToken);
+        }
+        catch (OperationCanceledException)
+        {
+            // İstemci SSE bağlantısını kapattı — yanıt zaten başlamış olabilir.
         }
     }
 

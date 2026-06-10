@@ -21,13 +21,15 @@ mobile/
 *.user
 *.suo
 
-# Docs (Docker image'a dahil olmasın, sadece git'te)
-docs/
+# Docs — API imajına gerek yok; frontend public-app build için seo-rules hariç tutulur
+docs/*
+!docs/seo-rules/**
 README.md
 *.md
 
-# Tools
-tools/
+# Tools — API imajına gerek yok; frontend rule catalog için script hariç tutulur
+tools/*
+!tools/generate-rule-catalog.mjs
 
 # Test results
 TestResults/

@@ -4,7 +4,7 @@
     "category": "content",
     "severity": "warning",
     "message": "Aynı başlık etiketi birden fazla sayfada kullanılıyor.",
-    "fixHint": "Her sayfaya benzersiz ve açıklayıcı bir başlık verin.",
+    "fixHint": "Her sayfaya benzersiz ve açıklayıcı bir başlık verin. Geçici yönlendirme (302/307) URL'leri bu kontrol dışındadır.",
     "docUrl": "https://developers.google.com/search/docs/appearance/title-link"
   },
   {
@@ -12,7 +12,7 @@
     "category": "content",
     "severity": "warning",
     "message": "Aynı meta açıklama birden fazla sayfada kullanılıyor.",
-    "fixHint": "Her sayfa için benzersiz bir meta açıklama yazın.",
+    "fixHint": "Her sayfa için benzersiz bir meta açıklama yazın. Geçici yönlendirme (302/307) URL'leri bu kontrol dışındadır.",
     "docUrl": "https://developers.google.com/search/docs/appearance/snippet"
   },
   {

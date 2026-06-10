@@ -48,7 +48,11 @@ import { catchError, of } from 'rxjs';
   imports: [FormsModule, ButtonComponent, HintIconComponent, AuditAiActionsComponent, IssueH1TableComponent, IssueImgAltTableComponent, IssueDetailTableComponent, OAuthSetupGuideComponent, IntegrationStatusPanelComponent, ScannedPagesPanelComponent, CriticalIssuesReportComponent, DecimalPipe, RouterLink],
   template: `
     <section class="audit-hero surface">
-      <p class="hero-nav"><a routerLink="/merchant-center">Ürün Uyumluluğu (Merchant Center) →</a></p>
+      <p class="hero-nav">
+        <a routerLink="/merchant-center">Ürün Uyumluluğu (Merchant Center) →</a>
+        <span class="nav-sep"> · </span>
+        <a routerLink="/price-benchmark">Ürün Fiyat Analizi →</a>
+      </p>
       <h1>SEO Site Denetimi</h1>
       <p class="subtitle">
         Web sitenizin adresini girin; Google Search Central kurallarına göre tarayıp hataları raporlayalım.
@@ -770,6 +774,7 @@ import { catchError, of } from 'rxjs';
     .hero-nav { margin: 0 0 var(--space-3); font-size: 0.95rem; }
     .hero-nav a { color: #4285f4; text-decoration: none; }
     .hero-nav a:hover { text-decoration: underline; }
+    .nav-sep { color: #999; }
     .subtitle { color: var(--color-text-muted, #666); margin-bottom: var(--space-4); }
     .audit-form { display: flex; gap: var(--space-3); flex-wrap: wrap; }
     .audit-form input {

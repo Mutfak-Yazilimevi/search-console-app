@@ -1,3 +1,4 @@
+import { fetchWithRetry } from "./fetch-with-retry.js";
 import { assertSafeFetchUrl } from "./ssrf-guard.js";
 
 export interface FetchPageResult {
@@ -21,7 +22,7 @@ export async function fetchPageWithRedirects(
 
   for (let hop = 0; hop < 15; hop++) {
     assertSafeFetchUrl(currentUrl, allowedOrigin);
-    const response = await fetch(currentUrl, {
+    const response = await fetchWithRetry(currentUrl, {
       headers: { "User-Agent": "SearchConsoleApp-CrawlWorker/1.0" },
       redirect: "manual",
     });
@@ -79,7 +80,7 @@ export async function checkCanonicalTarget(
 ): Promise<number> {
   try {
     assertSafeFetchUrl(canonicalUrl, allowedOrigin);
-    const response = await fetch(canonicalUrl, {
+    const response = await fetchWithRetry(canonicalUrl, {
       method: "HEAD",
       headers: { "User-Agent": "SearchConsoleApp-CrawlWorker/1.0" },
       redirect: "follow",
@@ -88,7 +89,7 @@ export async function checkCanonicalTarget(
   } catch {
     try {
       assertSafeFetchUrl(canonicalUrl, allowedOrigin);
-      const response = await fetch(canonicalUrl, {
+      const response = await fetchWithRetry(canonicalUrl, {
         headers: { "User-Agent": "SearchConsoleApp-CrawlWorker/1.0" },
         redirect: "follow",
       });

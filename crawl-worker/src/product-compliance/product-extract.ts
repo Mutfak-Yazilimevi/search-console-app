@@ -70,6 +70,14 @@ function collectNodes(root: unknown, out: JsonObject[]): void {
   }
 }
 
+function normalizeItemCondition(val: unknown): string | undefined {
+  if (typeof val !== "string" || !val.trim()) return undefined;
+  const tail = val.trim().split("/").pop() ?? val;
+  // https://schema.org/NewCondition → new (GMC: new | refurbished | used)
+  const normalized = tail.replace(/Condition$/i, "").toLowerCase();
+  return normalized || tail;
+}
+
 function parsePrice(val: unknown): number | undefined {
   if (typeof val === "number") return val;
   if (typeof val === "string") {
@@ -109,20 +117,72 @@ function normalizePageUrl(url: string): string {
   }
 }
 
+function parseTurkishMoney(raw: string): number | undefined {
+  const cleaned = raw.replace(/[^\d.,]/g, "").trim();
+  if (!cleaned) return undefined;
+  let normalized = cleaned;
+  if (/\d+\.\d{3}(?:,\d+)?$/.test(cleaned) || (cleaned.includes(".") && cleaned.includes(",") && cleaned.indexOf(".") < cleaned.indexOf(","))) {
+    normalized = cleaned.replace(/\./g, "").replace(",", ".");
+  } else {
+    normalized = cleaned.replace(",", ".");
+  }
+  const n = parseFloat(normalized);
+  return Number.isFinite(n) && n > 0 ? n : undefined;
+}
+
 function extractVisiblePrice(html: string): number | undefined {
-  const patterns = [
-    /(?:₺|TL|TRY)\s*([\d.,]+)/i,
-    /([\d.,]+)\s*(?:₺|TL|TRY)/i,
-    /"price"\s*:\s*"?([\d.,]+)"?/i,
-    /class="[^"]*price[^"]*"[^>]*>([^<]*[\d.,]+[^<]*)</i,
+  const candidates: number[] = [];
+
+  const metaPatterns = [
+    /property=["'](?:product:price:amount|og:price:amount)["'][^>]+content=["']([^"']+)["']/gi,
+    /content=["']([^"']+)["'][^>]+property=["'](?:product:price:amount|og:price:amount)["']/gi,
+    /itemprop=["']price["'][^>]+content=["']([^"']+)["']/gi,
+    /content=["']([^"']+)["'][^>]+itemprop=["']price["']/gi,
   ];
-  for (const p of patterns) {
-    const m = html.match(p);
-    if (m?.[1]) {
-      const n = parseFloat(m[1].replace(/\./g, "").replace(",", "."));
-      if (Number.isFinite(n) && n > 0) return n;
+  for (const pattern of metaPatterns) {
+    for (const m of html.matchAll(pattern)) {
+      const n = parseTurkishMoney(m[1] ?? "");
+      if (n) candidates.push(n);
     }
   }
+
+  for (const m of html.matchAll(/class=["'][^"']*price[^"']*["'][^>]*>([^<]{0,120})/gi)) {
+    const chunk = m[1] ?? "";
+    if (/kargo|shipping|taksit|ücretsiz|bedava|min\.?\s*alışveriş/i.test(chunk)) continue;
+    const priceMatch = chunk.match(/([\d][\d.,]*)\s*(?:₺|TL|TRY)?/i)
+      ?? chunk.match(/(?:₺|TL|TRY)\s*([\d][\d.,]*)/i);
+    if (priceMatch?.[1]) {
+      const n = parseTurkishMoney(priceMatch[1]);
+      if (n) candidates.push(n);
+    }
+  }
+
+  if (candidates.length > 0) {
+    return Math.max(...candidates);
+  }
+
+  const fallbackPatterns = [
+    /(?:₺|TL|TRY)\s*([\d][\d.,]*)/gi,
+    /([\d][\d.,]*)\s*(?:₺|TL|TRY)/gi,
+  ];
+  for (const pattern of fallbackPatterns) {
+    for (const m of html.matchAll(pattern)) {
+      const contextStart = Math.max(0, (m.index ?? 0) - 40);
+      const context = html.slice(contextStart, (m.index ?? 0) + 60);
+      if (/kargo|shipping|taksit|ücretsiz|bedava|min\.?\s*alışveriş/i.test(context)) continue;
+      const n = parseTurkishMoney(m[1] ?? "");
+      if (n) candidates.push(n);
+    }
+  }
+
+  return candidates.length > 0 ? Math.max(...candidates) : undefined;
+}
+
+/** Schema fiyatı öncelikli; görünür fiyat yanlış eşik değerleri (ör. 500 TL kargo) yakalayabilir. */
+export function resolveOurProductPrice(product: Pick<ExtractedProduct, "schemaPrice" | "visiblePrice" | "schemaListPrice">): number | undefined {
+  if (product.schemaPrice != null && product.schemaPrice > 0) return product.schemaPrice;
+  if (product.visiblePrice != null && product.visiblePrice > 0) return product.visiblePrice;
+  if (product.schemaListPrice != null && product.schemaListPrice > 0) return product.schemaListPrice;
   return undefined;
 }
 
@@ -282,9 +342,8 @@ export function extractProductFromPage(url: string, html: string): ExtractedProd
       : productNode?.brand && typeof productNode.brand === "object"
         ? (productNode.brand as JsonObject).name as string
         : undefined,
-    condition: typeof productNode?.itemCondition === "string"
-      ? (productNode.itemCondition as string).split("/").pop()
-      : undefined,
+    condition: normalizeItemCondition(productNode?.itemCondition)
+      ?? normalizeItemCondition(offerObj?.itemCondition),
     image,
     images: [...new Set(images)],
     imageCount,
